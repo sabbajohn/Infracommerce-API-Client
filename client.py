@@ -28,7 +28,7 @@ class Response:
 
 class IntegraCommerceClient():
 
-    def __init__(self, api_key, jwt, url_base="https://stoplight.io/mocks/infrashop/api-integration/116750859"):
+    def __init__(self, api_key, jwt, url_base="stoplight.io/mocks/infrashop/api-integration/116750859"):
         self.api_key = api_key
         self.jwt = jwt
         self.ulr_base = url_base
@@ -37,13 +37,19 @@ class IntegraCommerceClient():
         if response.status_code != 200:
             raise Exception('API Error: {}'.format(response.status_code))
     
-    def api_post(url, data, headers=None):
-        response = requests.post(url, json=data, headers=headers)
+    def api_post(self, endpoint, data):
+        url = f"https://{self.url_base}/{endpoint}"
+        response = requests.post(url, json=data, headers={})
         handle_api_error(response)
         return response.json()
     
-    def api_get(url, headers=None):
-        response = requests.get(url, headers=headers)
+    def api_get(self, endpoint):
+        url = f"https://{self.url_base}/{endpoint}"
+        response = requests.get(url, headers={})
         handle_api_error(response)
         return response.json()
+
+
+    def create_costumer(self, data: Dict):
+        return self.api_post(endpoint="ihub/customers/b2b", data=data)
     
