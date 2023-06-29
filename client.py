@@ -43,6 +43,12 @@ class IntegraCommerceClient:
         response = requests.post(url, json=data, headers={})
         handle_api_error(response)
         return response.json()
+    
+    def api_put(self, endpoint, data):
+        url = f"https://{self.url_base}/{endpoint}"
+        response = requests.post(url, json=data, headers={})
+        handle_api_error(response)
+        return response.json()
 
     def api_get(self, endpoint):
         url = f"https://{self.url_base}/{endpoint}"
@@ -50,5 +56,70 @@ class IntegraCommerceClient:
         handle_api_error(response)
         return response.json()
 
+    #REGION BEGIN - Customer methods 
     def create_costumer(self, data: Dict):
         return self.api_post(endpoint="ihub/customers/b2b", data=data)
+    
+    #This one wasn't defined on API docs, but I have faith.
+    def get_costumer(self, id):
+        return self.api_get(endpoint=f"ihub/customers/{id}/")
+
+    def list_costumers(self, data: Dict):
+        return self.api_get(endpoint="ihub/customers/list/") #Weird but Ok
+    
+    def create_credit_limit(self, id, data: Dict):
+        return self.api_put(endpoint=f"ihub/customers/{id}/creditLimit", data=data)
+    
+    def get_credit_limit(self, id):
+        return self.api_get(endpoint=f"ihub/customers/{id}/creditLimit")
+    #REGION END - Customer methods
+
+    #REGION START - Catalog methods
+    
+    #SUBREGION START - Brand methods
+    def create_brand(self, data: Dict):
+        return self.api_post(endpoint="catalog/admin/brands", data=data)
+    
+    def get_brand(self, id):
+        return self.api_get(endpoint=f"catalog/admin/brands/{id}")
+
+    def list_brands(self):
+        return self.api_get(endpoint="catalog/admin/brands")
+    
+    def update_brand(self, id, data: Dict):
+        return self.api_put(endpoint=f"catalog/admin/brands/{id}", data=data)
+    #SUBREGION END - Brand methods
+
+    #SUBREGION START - Category methods
+    def create_category(self, data: Dict):
+        return self.api_post(endpoint="catalog/admin/categories", data=data)
+    
+    def get_category(self, id):
+        return self.api_get(endpoint=f"catalog/admin/categories/{id}")
+    
+    def list_categories(self):
+        return self.api_get(endpoint="catalog/admin/categories")
+    
+    def update_category(self, id, data: Dict):
+        return self.api_put(endpoint=f"catalog/admin/categories/{id}", data=data)
+    
+    #SUBREGION END - Category methods
+
+    #SUBREGION START - Supplier methods
+    def create_supplier(self, data: Dict):
+        return self.api_post(endpoint="catalog/admin/suppliers", data=data)
+    
+    def get_supplier(self, id):
+        return self.api_get(endpoint=f"catalog/admin/suppliers/{id}")
+    
+    def list_suppliers(self):
+        return self.api_get(endpoint="catalog/admin/suppliers")
+    
+    def update_supplier(self, id, data: Dict):
+        return self.api_put(endpoint=f"catalog/admin/suppliers/{id}", data=data)
+    #SUBREGION END - Supplier methods
+
+    #SUBREGION START - Products methods
+    #SUBREGION END - Products methods
+    
+    #REGION END - Catalog methods    
