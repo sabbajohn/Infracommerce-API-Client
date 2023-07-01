@@ -54,14 +54,14 @@ class IntegraCommerceClient:
         return response.json()
 
     # REGION BEGIN - Customer methods
-    def create_costumer(self, data: Dict):
+    def create_customer(self, data: Dict):
         return self.api_post(endpoint="ihub/customers/b2b", data=data)
 
     # This one wasn't defined on API docs, but I have faith.
-    def get_costumer(self, id):
+    def get_customer(self, id):
         return self.api_get(endpoint=f"ihub/customers/{id}/")
 
-    def list_costumers(self, data: Dict):
+    def list_customers(self, data: Dict):
         return self.api_get(endpoint="ihub/customers/list/")  # Weird but Ok
 
     def create_credit_limit(self, id, data: Dict):
