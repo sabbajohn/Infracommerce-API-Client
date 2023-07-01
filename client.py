@@ -120,6 +120,47 @@ class IntegraCommerceClient:
     #SUBREGION END - Supplier methods
 
     #SUBREGION START - Products methods
+    def create_product(self, data: Dict):
+        return self.api_post(endpoint="catalog/admin/products", data=data)
+    
+    def get_product(self, id):
+        return self.api_get(endpoint=f"catalog/admin/products/{id}")
+    
+    def list_products(self):
+        return self.api_get(endpoint="catalog/admin/products")
+    
+    def update_product(self, id, data: Dict):
+        return self.api_put(endpoint=f"catalog/admin/products/{id}", data=data)
+
+    #SKU
+    def create_sku(self, data: Dict):
+        return self.api_post(endpoint="catalog/admin/skus", data=data)
+    def get_sku(self, id):
+        return self.api_get(endpoint=f"catalog/admin/skus/{id}")
+    
+    def list_skus(self):
+        return self.api_get(endpoint="catalog/admin/skus")
+    
+    def update_sku(self, id, data: Dict):
+        return self.api_put(endpoint=f"catalog/admin/skus/{id}", data=data)
+    
+    def get_fiscal_info_from_sku_list(self, sku_list: List[str]):
+        skus = ",".join
+        return self.api_get(endpoint=f"catalog/admin/skus/fiscal/{skus}")
+    #SKU END
+    #ATTRIBUTE
+    def create_attribute(self, data: Dict):
+        return self.api_post(endpoint="catalog/admin/attributes", data=data)
+    
+    def get_attribute(self, id):
+        return self.api_get(endpoint=f"catalog/admin/attributes/attributeById/{id}")
+
+    def list_attributes_by_category(self, category_id):
+        return self.api_get(endpoint=f"catalog/admin/attributes/listByCategoryId/{category_id}")
+    
+    def update_attribute(self, id, data: Dict):
+        return self.api_put(endpoint=f"catalog/admin/attributes/{id}", data=data)
+    #ATTRIBUTE
     #SUBREGION END - Products methods
     
     #REGION END - Catalog methods    
