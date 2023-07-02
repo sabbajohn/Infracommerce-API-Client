@@ -38,19 +38,19 @@ class IntegraCommerceClient:
     def api_post(self, endpoint, data):
         url = f"https://{self.url_base}/{endpoint}"
         response = requests.post(url, json=data, headers={})
-        handle_api_error(response)
+        self.handle_api_error(response)
         return response.json()
 
     def api_put(self, endpoint, data):
         url = f"https://{self.url_base}/{endpoint}"
         response = requests.post(url, json=data, headers={})
-        handle_api_error(response)
+        self.handle_api_error(response)
         return response.json()
 
     def api_get(self, endpoint):
         url = f"https://{self.url_base}/{endpoint}"
         response = requests.get(url, headers={})
-        handle_api_error(response)
+        self.handle_api_error(response)
         return response.json()
 
     # REGION BEGIN - Customer methods
