@@ -9,6 +9,7 @@ from typing import Optional, Dict, List
 
 logger = logging.getLogger(__name__)
 
+
 class Response:
     def __init__(self, data=None, status=200, message=None):
         self.data = data
@@ -16,34 +17,39 @@ class Response:
         self.message = message
 
     def to_dict(self):
-        return {
-            'data': self.data,
-            'status': self.status,
-            'message': self.message
-        }
+        return {"data": self.data, "status": self.status, "message": self.message}
 
     def to_json(self):
         return json.dumps(self.to_dict())
 
 
-class IntegraCommerceClient():
+class IntegraCommerceClient:
+    def __init__(self):
+        self.__api_key = os.environ.get("INTEGRA_API_KEY", "")
+        self.__jwt = os.environ.get("INTEGRA_JWT", "")
+        self.__url_base = os.environ.get(
+            "INTEGRA_URL_BASE", "stoplight.io/mocks/infrashop/api-integration/116750859"
+        )
 
-    def __init__(self, api_key, jwt, url_base="https://stoplight.io/mocks/infrashop/api-integration/116750859"):
-        self.api_key = api_key
-        self.jwt = jwt
-        self.ulr_base = url_base
-    
-    def handle_api_error(response):
+    def handle_api_error(self, response):
         if response.status_code != 200:
-            raise Exception('API Error: {}'.format(response.status_code))
-    
-    def api_post(url, data, headers=None):
-        response = requests.post(url, json=data, headers=headers)
-        handle_api_error(response)
+            raise Exception("API Error: {}".format(response.status_code))
+
+    def api_post(self, endpoint, data):
+        url = f"https://{self.__url_base}/{endpoint}"
+        response = requests.post(url, json=data, headers={})
+        self.handle_api_error(response)
         return response.json()
-    
-    def api_get(url, headers=None):
-        response = requests.get(url, headers=headers)
-        handle_api_error(response)
+
+    def api_put(self, endpoint, data):
+        url = f"https://{self.__url_base}/{endpoint}"
+        response = requests.post(url, json=data, headers={})
+        self.handle_api_error(response)
         return response.json()
-    
+
+    def api_get(self, endpoint):
+        url = f"https://{self.__url_base}/{endpoint}"
+        response = requests.get(url, headers={})
+        self.handle_api_error(response)
+        return response.json()
+
