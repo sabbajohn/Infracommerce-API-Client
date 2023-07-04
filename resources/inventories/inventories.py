@@ -1,4 +1,4 @@
-from .resource import Resource
+from resources import Resource
 
 # Just create and List
 class Inventories(Resource):

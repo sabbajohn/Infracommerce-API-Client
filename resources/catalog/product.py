@@ -1,10 +1,10 @@
-from .resource import Resource
+from resources import Resource
 from typing import List
 
 
 class _Attribute(Resource):
     def __init__(self, *args, **kwargs):
-        super().__init__("attributes", *args, **kwargs)
+        super().__init__("catalog/admin/","attributes", *args, **kwargs)
 
     def list_by_category(self, id):
         return self.api_get(endpoint=f"{self.base_url}/listByCategoryId/{id}")
@@ -12,7 +12,7 @@ class _Attribute(Resource):
 
 class _Sku(Resource):
     def __init__(self, *args, **kwargs):
-        super().__init__("skus", *args, **kwargs)
+        super().__init__("catalog/admin/","skus", *args, **kwargs)
 
     def list(self):
         return self.api_get(endpoint=f"{self.base_url}")

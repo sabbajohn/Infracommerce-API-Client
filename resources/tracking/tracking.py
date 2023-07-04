@@ -1,4 +1,4 @@
-from .resource import Resource
+from resources import Resource
 
 # PUT/UPDATE Ack feed
 # GET Get tracking feed
