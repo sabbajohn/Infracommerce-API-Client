@@ -2,6 +2,7 @@
 
 This project provides a Python API client for interacting with the IntegraCommerce platform. It allows you to seamlessly integrate your application with IntegraCommerce, enabling the synchronization of data, managing orders, updating inventory, and more.
 
+## FILES
 .
 ├── client.py
 ├── __init__.py
