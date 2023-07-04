@@ -1,4 +1,5 @@
-customer_data = """{
+
+costumer_data = """{
     "sellerCode": "vilaolimpia",
     "companyName": "Infracommerce",
     "customerId": "987654321",
