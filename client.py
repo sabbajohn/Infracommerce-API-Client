@@ -52,4 +52,3 @@ class IntegraCommerceClient:
         response = requests.get(url, headers={})
         self.handle_api_error(response)
         return response.json()
-      
