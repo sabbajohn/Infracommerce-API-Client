@@ -1,3 +1,4 @@
+
 costumer_data = """{
     "sellerCode": "vilaolimpia",
     "companyName": "Infracommerce",
