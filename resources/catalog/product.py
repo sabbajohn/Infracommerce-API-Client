@@ -24,6 +24,6 @@ class _Sku(Resource):
 
 class Product(Resource):
     def __init__(self, *args, **kwargs):
-        super().__init__("products", *args, **kwargs)
+        super().__init__("catalog/admin/","products", *args, **kwargs)
         self.Sku = _Sku()
         self.Attribute = _Attribute()

@@ -2,9 +2,9 @@ from client import IntegraCommerceClient
 
 
 class Resource(IntegraCommerceClient):
-    def __init__(self, endpoint_base: str, *args, **kwargs):
+    def __init__(self,resource_url ,endpoint_base: str, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.base_url = f"catalog/admin/{endpoint_base}"
+        self.base_url = f"{resource_url}{endpoint_base}"
 
     def create(self, data: Dict):
         return self.api_post(endpoint=self.base_url, data=data)
