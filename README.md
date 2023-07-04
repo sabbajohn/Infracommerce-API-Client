@@ -4,18 +4,27 @@ This project provides a Python API client for interacting with the IntegraCommer
 
 ## FILES
 ```bash
-.
 ├── client.py
 ├── __init__.py
 ├── README.md
 ├── resources
-│   ├── brand.py
-│   ├── category.py
-│   ├── customer.py
+│   ├── catalog
+│   │   ├── brand.py
+│   │   ├── category.py
+│   │   ├── __init__.py
+│   │   ├── product.py
+│   │   └── supplier.py
+│   ├── customer
+│   │   ├── customer.py
+│   │   └── __init__.py
 │   ├── __init__.py
-│   ├── product.py
+│   ├── inventories
+│   │   ├── __init__.py
+│   │   └── inventories.py
 │   ├── resource.py
-│   └── supplier.py
+│   └── tracking
+│       ├── __init__.py
+│       └── tracking.py
 └── test_data.py
 ```
 ## Installation
