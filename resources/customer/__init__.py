@@ -1,2 +1,2 @@
-from .resource import Resource
+from .customer import Customer
 from client import IntegraCommerceClient
