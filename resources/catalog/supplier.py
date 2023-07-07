@@ -1,4 +1,4 @@
-from .resource import Resource
+from resources import Resource
 class Supplier(Resource):
     def __init__(self, *args, **kwargs):
-        super().__init__("suppliers", *args, **kwargs)
+        super().__init__("catalog/admin/","suppliers", *args, **kwargs)
