@@ -52,3 +52,9 @@ class IntegraCommerceClient:
         response = requests.get(url, headers={})
         self.handle_api_error(response)
         return response.json()
+
+    def api_patch(self, endpoint, data):
+        url = f"https://{self.__url_base}/{endpoint}"
+        response = requests.post(url, json=data, headers={})
+        self.handle_api_error(response)
+        return response.json()
