@@ -1,20 +1,44 @@
-from spyne import Iterable, Integer, Unicode, rpc, Application, Service
+from spyne import (
+    Application,
+    Array,
+    ComplexModel,
+    Date,
+    Integer,
+    Iterable,
+    ServiceBase,
+    String,
+    Unicode,
+    rpc,
+)
 from spyne.protocol.http import HttpRpc
 from spyne.protocol.json import JsonDocument
-from spyne.protocol.soap import Soap11
+from spyne.protocol.soap import Soap11,Soap12
 
 
-class HelloWorldService(Service):
+class Customer(ComplexModel):
+    name = String
+    email = String
+    documenNr = String
+    createDate = String
+    stateSubscription = String
+
+class InfracommerceService(ServiceBase):
     @rpc(Unicode, Integer, _returns=Iterable(Unicode))
     def hello(ctx, name, times):
         name = name or ctx.udc.config['HELLO']
         for i in range(times):
             yield u'Hello, %s' % name
+
     @rpc(Unicode, Integer, _returns=Iterable(Unicode))
     def bye(ctx, name, times):
         name = name or ctx.udc.config['HELLO']
         for i in range(times):
             yield u'Bye, %s' % name
+    
+    @rpc(Customer, _returns=(Customer))
+    def notifyCustomerCreationRequest(ctx, customer):
+        data = customer.as_dict()
+        return data
 
 
 class UserDefinedContext(object):
@@ -27,9 +51,9 @@ def create_app(flask_app):
     user con defined context for each method call.
     """
     application = Application(
-        [HelloWorldService], 'spyne.examples.flask',
+        [InfracommerceService], 'customer', 
         # The input protocol is set as HttpRpc to make our service easy to call.
-        in_protocol=Soap11(validator='lxml'),
+        in_protocol=Soap11(validator='soft',ns_clean=True),
         out_protocol=Soap11(),
     )
 
@@ -38,7 +62,7 @@ def create_app(flask_app):
     # NOTE. I refuse idea to wrap each call into Flask application context
     # because in fact we inside Spyne app context, not the Flask one.
     def _flask_config_context(ctx):
-        ctx.udc = UserDefinedContext(flask_app.config)
-    application.event_manager.add_listener('method_call', _flask_config_context)
+        ctx.udc = UserDefinedContext(flask_app)
+    application.event_manager.add_listener('method_call', "_flask_config_context")
 
     return application
