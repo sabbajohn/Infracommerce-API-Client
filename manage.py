@@ -9,7 +9,7 @@ from apps.flask_app.flasked import app
 # SOAP services are distinct wsgi applications, we should use dispatcher
 # middleware to bring all aps together
 app.app.wsgi_app = DispatcherMiddleware(app.app.wsgi_app, {
-    '/soap': WsgiApplication(spyned.create_app(app))
+        '/soap': WsgiApplication(spyned.create_app(app))
 })
 
 
