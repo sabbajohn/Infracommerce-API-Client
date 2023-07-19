@@ -2,6 +2,8 @@
 
 This project provides a Python API client for interacting with the IntegraCommerce platform. It allows you to seamlessly integrate your application with IntegraCommerce, enabling the synchronization of data, managing orders, updating inventory, and more.
 
+# TODO
+Create the server to deal with the webhooks in SOAP
 ## FILES
 ```bash
 ├── client.py
