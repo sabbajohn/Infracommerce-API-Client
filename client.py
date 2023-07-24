@@ -39,7 +39,8 @@ class IntegraCommerceClient:
         url = f"https://{self.__url_base}/{endpoint}"
         response = requests.post(url, json=data, headers={})
         self.handle_api_error(response)
-        return response
+        r = {"status": response.status_code, "data": response.json() if response.text else None}
+        return r
 
     def api_put(self, endpoint, data):
         url = f"https://{self.__url_base}/{endpoint}"
