@@ -6,28 +6,69 @@ This project provides a Python API client for interacting with the IntegraCommer
 Create the server to deal with the webhooks in SOAP
 ## FILES
 ```bash
+├── app.py
 ├── client.py
+├── customer.py
 ├── __init__.py
+├── __pycache__
+│   ├── app.cpython-310.pyc
+│   ├── client.cpython-310.pyc
+│   ├── customer.cpython-310.pyc
+│   └── __init__.cpython-310.pyc
 ├── README.md
+├── requests.http
 ├── resources
 │   ├── catalog
 │   │   ├── brand.py
 │   │   ├── category.py
 │   │   ├── __init__.py
 │   │   ├── product.py
+│   │   ├── __pycache__
+│   │   │   ├── brand.cpython-310.pyc
+│   │   │   ├── category.cpython-310.pyc
+│   │   │   ├── __init__.cpython-310.pyc
+│   │   │   ├── product.cpython-310.pyc
+│   │   │   └── supplier.cpython-310.pyc
 │   │   └── supplier.py
 │   ├── customer
 │   │   ├── customer.py
-│   │   └── __init__.py
+│   │   ├── __init__.py
+│   │   └── __pycache__
+│   │       ├── customer.cpython-310.pyc
+│   │       └── __init__.cpython-310.pyc
 │   ├── __init__.py
 │   ├── inventories
 │   │   ├── __init__.py
-│   │   └── inventories.py
+│   │   ├── inventories.py
+│   │   └── __pycache__
+│   │       ├── __init__.cpython-310.pyc
+│   │       └── inventories.cpython-310.pyc
+│   ├── orders
+│   │   ├── __init__.py
+│   │   └── order.py
+│   ├── protocols
+│   │   ├── protocols.py
+│   │   └── __pycache__
+│   │       └── protocols.cpython-310.pyc
+│   ├── __pycache__
+│   │   ├── __init__.cpython-310.pyc
+│   │   └── resource.cpython-310.pyc
 │   ├── resource.py
 │   └── tracking
 │       ├── __init__.py
+│       ├── __pycache__
+│       │   ├── __init__.cpython-310.pyc
+│       │   └── tracking.cpython-310.pyc
 │       └── tracking.py
-└── test_data.py
+├── servers
+│   ├── REST
+│   └── SOAP
+│       └── soap.py
+├── swagger.yml
+├── templates
+│   └── home.html
+└── tests
+    └── test_data.py
 ```
 ## Installation
     ---------------
