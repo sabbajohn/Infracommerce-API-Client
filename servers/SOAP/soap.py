@@ -1,6 +1,7 @@
 import copy
 import json
 import os
+from functools import wraps
 from xml.etree import ElementTree
 
 import requests
@@ -14,8 +15,23 @@ app = Flask(__name__)
 
 from datetime import datetime
 
-def get_request_xml(request):
-        return ElementTree.fromstring(request)
+def requires_basic_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_credentials(auth.username, auth.password):
+            return Response(
+                "Unauthorized", 401, {"WWW-Authenticate": 'Basic realm="Login Required"'}
+            )
+        return f(*args, **kwargs)
+
+    return decorated
+
+def check_credentials(username, password):
+    # Implement your logic to validate the credentials here
+    # You can store the username and password securely in a database or other storage mechanism
+    # Return True if the credentials are valid, False otherwise
+    return username == "your_username" and password == "your_password"
 
 @app.route("/notifyCustomerCreationRequest", methods=["POST"])
 def notifyCustomerCreationRequest():
