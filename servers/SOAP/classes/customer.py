@@ -1,29 +1,21 @@
-import copy
-import json
-import os
+from copy import deepcopy
 from xml.etree import ElementTree
+from datetime import datetime
 
 
 class CustomerCreationRequest:
     def __init__(self, request):
         self.request = request
-        customer = request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"][
-            "customer"
-        ]
+
+        customer = request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"]["customer"]
+
         self.documentNr = self.validate_string(customer.get("documentNr", None), 15, True)
         self.name = self.validate_string(customer.get("name", None), 100, True)
         self.email = self.validate_string(customer.get("email", None), 255, True)
-        self.stateSubscription = (
-            customer.get("stateSubscription", None)
-            if customer.get("stateSubscription", None)
-            else ""
-        )
-        self.representativeNm = (
-            customer.get("representativeNm", None) if customer.get("representativeNm", None) else ""
-        )
-        self.createDate = (
-            customer.get("createDate", None) if customer.get("createDate", None) else datetime.now()
-        )
+        self.stateSubscription = customer.get("stateSubscription", "")
+        self.representativeNm = customer.get("representativeNm", "")
+        self.createDate = customer.get("createDate", datetime.now())
+
         self.addressList = [Address(**addr) for addr in customer["addressList"].get("address", [])]
         self.phoneList = [Phone(**phone) for phone in customer["phoneList"].get("phone", [])]
 
@@ -40,7 +32,6 @@ class CustomerCreationRequest:
     def is_valid(self):
         failed_fields = []
 
-        # Check if all required fields are valid
         if not self.documentNr:
             failed_fields.append("documentNr")
         if not self.name:
@@ -48,12 +39,10 @@ class CustomerCreationRequest:
         if not self.email:
             failed_fields.append("email")
 
-        # Check address validity
         for index, address in enumerate(self.addressList):
             if not address.is_valid():
                 failed_fields.append(f"addressList[{index}]")
 
-        # Check phone validity
         for index, phone in enumerate(self.phoneList):
             if not phone.is_valid():
                 failed_fields.append(f"phoneList[{index}]")
@@ -64,7 +53,6 @@ class CustomerCreationRequest:
             return True
 
     def save(self):
-        # Check validity
         valid = self.is_valid()
         if isinstance(valid, list):
             return valid
@@ -76,10 +64,8 @@ class CustomerCreationRequest:
         return True
 
     def soap_response(self):
-        request = copy.deepcopy(self.request)
-        del request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"][
-            "customer"
-        ]
+        request = deepcopy(self.request)
+        del request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"]["customer"]
 
         root = ElementTree.Element("soapenv:Envelope")
         envelope = request["soapenv:Envelope"]
@@ -100,9 +86,7 @@ class CustomerCreationRequest:
 
 
 class Address:
-    def __init__(
-        self, recipientNm, address, addressNr, additionalInfo, quarter, city, state, postalCd
-    ):
+    def __init__(self, recipientNm, address, addressNr, additionalInfo, quarter, city, state, postalCd):
         self.recipientNm = self.validate_string(recipientNm, 100, True)
         self.address = self.validate_string(address, 100, True)
         self.addressNr = self.validate_string(addressNr, 10, True)
@@ -123,21 +107,15 @@ class Address:
             return ""
 
     def is_valid(self):
-        # Check if all required fields are valid
-        if not all(
-            [
-                self.recipientNm,
-                self.address,
-                self.addressNr,
-                self.quarter,
-                self.city,
-                self.state,
-                self.postalCd,
-            ]
-        ):
-            return False
-
-        return True
+        return all([
+            self.recipientNm,
+            self.address,
+            self.addressNr,
+            self.quarter,
+            self.city,
+            self.state,
+            self.postalCd,
+        ])
 
 
 class Phone:
@@ -166,8 +144,4 @@ class Phone:
             return ""
 
     def is_valid(self):
-        # Check if all required fields are valid
-        if not all([self.phoneTp, self.areaCd]):
-            return False
-
-        return True
+        return all([self.phoneTp, self.areaCd])
