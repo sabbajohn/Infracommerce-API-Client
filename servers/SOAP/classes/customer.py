@@ -106,7 +106,19 @@ class Customer:
 
 
 class Address:
-    def __init__(self, *args, **kwargs):
+    def __init__(
+        self,
+        recipientNm="",
+        address="",
+        addressNr="",
+        additionalInfo="",
+        quarter="",
+        city="",
+        state="",
+        postalCd="",
+        addressId=None,
+        **kwargs,
+    ):
         if kwargs.get("addressId"):
             for key, value in kwargs.items():
                 setattr(self, key, value)
