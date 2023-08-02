@@ -7,17 +7,69 @@ class CustomerCreationRequest:
     def __init__(self, request):
         self.request = request
 
-        customer = request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"]["customer"]
+        customer = request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"][
+            "customer"
+        ]
+        self.Customer = Customer(**customer)
 
-        self.documentNr = self.validate_string(customer.get("documentNr", None), 15, True)
-        self.name = self.validate_string(customer.get("name", None), 100, True)
-        self.email = self.validate_string(customer.get("email", None), 255, True)
-        self.stateSubscription = customer.get("stateSubscription", "")
-        self.representativeNm = customer.get("representativeNm", "")
-        self.createDate = customer.get("createDate", datetime.now())
+    def save(self):
+        valid = self.is_valid()
+        if isinstance(valid, list):
+            return valid
+        else:
+            # Save to database
+            # ...
+            pass
 
-        self.addressList = [Address(**addr) for addr in customer["addressList"].get("address", [])]
-        self.phoneList = [Phone(**phone) for phone in customer["phoneList"].get("phone", [])]
+        return True
+
+    def soap_response(self):
+        request = deepcopy(self.request)
+        del request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"][
+            "customer"
+        ]
+
+        root = ElementTree.Element("soapenv:Envelope")
+        envelope = request["soapenv:Envelope"]
+
+        for key, value in envelope.items():
+            if key.startswith("@"):
+                attr_name = key.replace("@", "")
+                root.set(attr_name, value)
+
+        header = ElementTree.SubElement(root, "soapenv:Header")
+        body = ElementTree.SubElement(root, "soapenv:Body")
+        resp = ElementTree.SubElement(body, "cus:notifyCustomerCreationResponse")
+        status = ElementTree.SubElement(resp, "cus:status")
+        status.text = "PEN"
+
+        xml_response = ElementTree.tostring(root, encoding="utf-8", method="xml")
+        return xml_response.decode()
+
+
+class Customer:
+    def __init__(self, *args, **kwargs):
+        if kwargs.get("customerId"):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+            return
+        self.documentNr = self.validate_string(kwargs.get("documentNr", None), 15, True)
+        self.name = self.validate_string(kwargs.get("name", None), 100, True)
+        self.email = self.validate_string(kwargs.get("email", None), 255, True)
+        self.stateSubscription = kwargs.get("stateSubscription", "")
+        self.representativeNm = kwargs.get("representativeNm", "")
+        self.createDate = kwargs.get("createDate", datetime.now())
+
+        if type(kwargs["addressList"]["address"]) is list:
+            self.addressList = [
+                Address(**addr) for addr in kwargs["addressList"].get("address", [])
+            ]
+        else:
+            self.addressList = [Address(**kwargs["addressList"].get("address", {}))]
+        if type(kwargs["phoneList"]["phone"]) is list:
+            self.phoneList = [Phone(**phone) for phone in kwargs["phoneList"].get("phone", [])]
+        else:
+            self.phoneList = [Phone(**kwargs["phoneList"].get("phone", {}))]
 
     def validate_string(self, value, limit, required):
         if value:
@@ -52,41 +104,13 @@ class CustomerCreationRequest:
         else:
             return True
 
-    def save(self):
-        valid = self.is_valid()
-        if isinstance(valid, list):
-            return valid
-        else:
-            # Save to database
-            # ...
-            pass
-
-        return True
-
-    def soap_response(self):
-        request = deepcopy(self.request)
-        del request["soapenv:Envelope"]["soapenv:Body"]["cus:notifyCustomerCreationRequest"]["customer"]
-
-        root = ElementTree.Element("soapenv:Envelope")
-        envelope = request["soapenv:Envelope"]
-
-        for key, value in envelope.items():
-            if key.startswith("@"):
-                attr_name = key.replace("@", "")
-                root.set(attr_name, value)
-
-        header = ElementTree.SubElement(root, "soapenv:Header")
-        body = ElementTree.SubElement(root, "soapenv:Body")
-        resp = ElementTree.SubElement(body, "cus:notifyCustomerCreationResponse")
-        status = ElementTree.SubElement(resp, "cus:status")
-        status.text = "PEN"
-
-        xml_response = ElementTree.tostring(root, encoding="utf-8", method="xml")
-        return xml_response.decode()
-
 
 class Address:
-    def __init__(self, recipientNm, address, addressNr, additionalInfo, quarter, city, state, postalCd):
+    def __init__(self, *args, **kwargs):
+        if kwargs.get("addressId"):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+            return
         self.recipientNm = self.validate_string(recipientNm, 100, True)
         self.address = self.validate_string(address, 100, True)
         self.addressNr = self.validate_string(addressNr, 10, True)
@@ -107,15 +131,17 @@ class Address:
             return ""
 
     def is_valid(self):
-        return all([
-            self.recipientNm,
-            self.address,
-            self.addressNr,
-            self.quarter,
-            self.city,
-            self.state,
-            self.postalCd,
-        ])
+        return all(
+            [
+                self.recipientNm,
+                self.address,
+                self.addressNr,
+                self.quarter,
+                self.city,
+                self.state,
+                self.postalCd,
+            ]
+        )
 
 
 class Phone:

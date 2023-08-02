@@ -6,6 +6,7 @@ from xml.etree import ElementTree
 import requests
 import xmltodict
 from classes.customer import CustomerCreationRequest
+from classes.orders import OrderRequest
 from flask import Flask, Response, request
 
 app = Flask(__name__)
@@ -26,6 +27,19 @@ def notifyCustomerCreationRequest():
         xml, mimetype="text/xml"
     )  # Returns the custom XML message as the response with the specified mimetype
 
+
+@app.route("/integrateOrderRequest", methods=["POST"])
+def integrateOrderRequest():
+    """
+    This endpoint responds with a custom XML message.
+    """
+    data = xmltodict.parse(request.data.decode("utf-8"))
+    Order = OrderRequest(data)
+    xml = Order.soap_response()
+
+    return Response(
+        xml, mimetype="text/xml"
+    )  # Returns the custom XML message as the response with the specified mimetype
 
 @app.route("/wsdl")
 def wsdl():
