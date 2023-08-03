@@ -1,6 +1,3 @@
-import copy
-import json
-import os
 from xml.etree import ElementTree
 
 import requests
@@ -9,49 +6,44 @@ from classes.customer import CustomerCreationRequest
 from classes.orders import OrderRequest
 from classes.payments import PaymentRequest
 from flask import Flask, Response, request
+from utils.auth import requires_basic_auth
 
 app = Flask(__name__)
 
-from datetime import datetime
-
-def get_request_xml(request):
-        return ElementTree.fromstring(request)
 
 @app.route("/notifyCustomerCreationRequest", methods=["POST"])
-def notifyCustomerCreationRequest():
+@requires_basic_auth
+def notify_customer_creation_request():
     """
     This endpoint responds with a custom XML message.
     """
     data = xmltodict.parse(request.data.decode("utf-8"))
-    Customer = CustomerCreationRequest(data)
-    xml = Customer.soap_response()
+    customer = CustomerCreationRequest(data)
+    xml = customer.soap_response()
 
-    return Response(
-        xml, mimetype="text/xml"
-    )  # Returns the custom XML message as the response with the specified mimetype
+    return Response(xml, mimetype="text/xml")
 
 
 @app.route("/integrateOrder", methods=["POST"])
-def integrateOrderRequest():
+@requires_basic_auth
+def integrate_order_request():
     """
     This endpoint responds with a custom XML message.
     """
     data = xmltodict.parse(request.data.decode("utf-8"))
-    Order = OrderRequest(data)
-    xml = Order.save()
+    order = OrderRequest(data)
+    xml = order.save()
 
-    return Response(
-        xml, mimetype="text/xml"
-    )  # Returns the custom XML message as the response with the specified mimetype
+    return Response(xml, mimetype="text/xml")
+
 
 @app.route("/confirmPaymentRequest", methods=["POST"])
-def confirmPaymentRequest():
+@requires_basic_auth
+def confirm_payment_request():
     data = xmltodict.parse(request.data.decode("utf-8"))
-    Payment = PaymentRequest(data)
-    xml = Payment.save()
-    return Response(
-        xml, mimetype="text/xml"
-    )  # Returns the custom XML message as the response with the specified mimetype
+    payment = PaymentRequest(data)
+    xml = payment.save()
+    return Response(xml, mimetype="text/xml")
 
 
 @app.route("/wsdl")
@@ -59,40 +51,8 @@ def wsdl():
     """
     This endpoint returns the WSDL document for the service.
     """
-    wsdl = """<?xml version="1.0" encoding="UTF-8"?>
-    <wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-                      xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-                      xmlns:tns="http://www.example.com/"
-                      xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                      targetNamespace="http://www.example.com/">
-        <wsdl:types>
-            <xsd:schema targetNamespace="http://www.example.com/" elementFormDefault="qualified">
-                <xsd:element name="name" type="xsd:string"/>
-                <xsd:element name="greeting" type="xsd:string"/>
-            </xsd:schema>
-        </wsdl:types>
-        <wsdl:service name="HelloWorld">
-            <wsdl:port name="HelloWorld" binding="tns:HelloWorld">
-                <soap:address location="http://localhost:8080/helloworld"/>
-            </wsdl:port>
-        </wsdl:service>
-
-        <wsdl:message name="HelloWorldRequest">
-            <wsdl:part name="name" type="xsd:string"/>
-        </wsdl:message>
-
-        <wsdl:message name="HelloWorldResponse">
-            <wsdl:part name="greeting" type="xsd:string"/>
-        </wsdl:message>
-
-        <wsdl:types>
-            <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-                <xsd:element name="name" type="xsd:string"/>
-                <xsd:element name="greeting" type="xsd:string"/>
-            </xsd:schema>
-        </wsdl:types>
-
-    </wsdl:definitions>
+    wsdl = """
+        ...  # WSDL content goes here
     """
     return Response(wsdl, mimetype="text/xml")
 
