@@ -4,3 +4,5 @@ __pycache__/*
 debug.py
 Mondelez/
 requests.http
+certs/Mondelez_test.crt
+certs/ca.key

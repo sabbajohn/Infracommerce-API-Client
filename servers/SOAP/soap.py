@@ -58,4 +58,8 @@ def wsdl():
 
 
 if __name__ == "__main__":
-    app.run(port=8080)
+    app.run(
+        host="0.0.0.0",
+        port=4443,  # Change this to the desired port number for your HTTPS server
+        ssl_context=("certs/Mondelez_test.crt", "certs/ca.key")
+    )
