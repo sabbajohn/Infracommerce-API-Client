@@ -1,34 +1,36 @@
 from .customer import Address, Customer
 from xml.etree import ElementTree
 
+
 class OrderRequest:
     def __init__(self, request):
-        self.request = request
         self.Order = Order(
             request["soapenv:Envelope"]["soapenv:Body"]["boor:integrateOrderRequest"]["order"]
         )
 
     def save(self):
-        valid = self.is_valid()
-        if valid:
-            # Save to database
-            # ...
-            pass
+        # Check if the Order is new by the Order.id
+        new = True
+        if new:
+            # Create a new Order
+            return self.__soap_response(True)
+        else:
+            # Update an existing Order
+            return self.__soap_response(False)
 
-        return True
-
-    def soap_response(self):
+    @staticmethod
+    def __soap_response(status):
         root = ElementTree.Element("env:Envelope")
         root.set("xmlns:env", "http://schemas.xmlsoap.org/soap/envelope/")
 
         body = ElementTree.SubElement(root, "env:Body")
         resp = ElementTree.SubElement(body, "integrateOrderResponse")
         resp.set("xmlns", "http://www.accurate.com/acec/AcecBOSOAIntegration/BOOrderIntegration")
-        status = ElementTree.SubElement(resp, "status")
-        status.text = "OK"
+        resp_status = ElementTree.SubElement(resp, "status")
+        resp_status.text = "OK"
 
         message = ElementTree.SubElement(resp, "message")
-        if self.Order.new_order:
+        if status:
             message.text = "Pedido integrado com sucesso"
         else:
             message.text = "Pedido já existe no ERP"
@@ -39,10 +41,7 @@ class OrderRequest:
 
 class Order:
     def __init__(self, order):
-        self.OrderId = order.get("orderId")
-        # TODO: Check if this order is already integrated
-        self.new_order = True
-
+        self.id = order.get("orderId")
         self.total_amount = order.get("totalAmount")
         self.total_discount_amount = order.get("totalDiscountAmount")
         self.purchase_date = order.get("purchaseDate")
@@ -56,24 +55,28 @@ class Order:
         self.origin = order.get("origin")
 
         self.deliveries = (
-            Delivery(**deliv) for deliv in order["deliveries"].get("delivery", [])
-        ) if isinstance(order["deliveries"]["delivery"], list) else [
-            Delivery(**order["deliveries"].get("delivery", {}))]
-        
+            (Delivery(**deliv) for deliv in order["deliveries"].get("delivery", []))
+            if isinstance(order["deliveries"]["delivery"], list)
+            else [Delivery(**order["deliveries"].get("delivery", {}))]
+        )
+
         self.customer = (
-            Customer(**customer) for customer in order.get("customer", [])
-        ) if isinstance(order["customer"], list) else [
-            Customer(**order.get("customer", {}))]
+            (Customer(**customer) for customer in order.get("customer", []))
+            if isinstance(order["customer"], list)
+            else [Customer(**order.get("customer", {}))]
+        )
 
         self.billing_address = (
-            Address(**addr) for addr in order.get("billingAddress", [])
-        ) if isinstance(order["billingAddress"], list) else [
-            Address(**order.get("billingAddress", {}))]
+            (Address(**addr) for addr in order.get("billingAddress", []))
+            if isinstance(order["billingAddress"], list)
+            else [Address(**order.get("billingAddress", {}))]
+        )
 
         self.payment_list = (
-            Payment(payment) for payment in order.get("PaymentList", {}).get("payment", [])
-        ) if isinstance(order["paymentList"]["payment"], list) else [
-            Payment(order.get("paymentList", {}).get("payment", {}))]
+            (Payment(payment) for payment in order.get("PaymentList", {}).get("payment", []))
+            if isinstance(order["paymentList"]["payment"], list)
+            else [Payment(order.get("paymentList", {}).get("payment", {}))]
+        )
 
         self.freight_charged_amount = order.get("freightChargedAmount")
         self.freight_actual_amount = order.get("freightActualAmount")
@@ -98,9 +101,10 @@ class Delivery:
         self.totalAmount = float(totalAmount)
         self.totalDiscountAmount = float(totalDiscountAmount)
         self.orderLineList = (
-            OrderLine(**order_line) for order_line in orderLineList.get("orderLine", [])
-        ) if isinstance(orderLineList["orderLine"], list) else [
-            OrderLine(**orderLineList.get("orderLine", {}))]
+            (OrderLine(**order_line) for order_line in orderLineList.get("orderLine", []))
+            if isinstance(orderLineList["orderLine"], list)
+            else [OrderLine(**orderLineList.get("orderLine", {}))]
+        )
 
         self.freightAmount = Freight(**kwargs.get("freightAmount", {}))
         self.deliveryAddress = deliveryAddress
@@ -118,10 +122,14 @@ class OrderLine:
         self.roundingDiscountAmount = kwargs.get("roundingDiscountAmount", None)
         if kwargs["promotionList"]:
             self.promotionList = (
-                Promotion(**promotion) for promotion in kwargs.get("promotionList", {}).get("promotion", [])
-            ) if isinstance(kwargs["promotionList"]["promotion"], list) else [
-                Promotion(**kwargs.get("promotionList", {}).get("promotion", {}))]
-        
+                (
+                    Promotion(**promotion)
+                    for promotion in kwargs.get("promotionList", {}).get("promotion", [])
+                )
+                if isinstance(kwargs["promotionList"]["promotion"], list)
+                else [Promotion(**kwargs.get("promotionList", {}).get("promotion", {}))]
+            )
+
         self.freight = Freight(**kwargs.get("freight", {}))
         self.kitSkuId = kwargs.get("kitSkuId", "")
         self.kitSkuName = kwargs.get("kitSkuName", "")
