@@ -1,0 +1,1478 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- @author: Wesley Akio Imamura - Accurate Software-->
+
+<schema xmlns:aceco="http://www.accurate.com/acec/order"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified"
+  targetNamespace="http://www.accurate.com/acec/order"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  xmlns:invoice="http://www.accurate.com/acec/InvoiceInfo"
+    xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+  jaxb:extensionBindingPrefixes="xjc"
+  jaxb:version="1.0"  
+  >
+  <import schemaLocation="AcecInvoiceInfo.xsd"
+         namespace="http://www.accurate.com/acec/InvoiceInfo"/>
+    
+
+  <!-- IMPORTANTE: Quando for gerar as entidades JAXB desse XSD, 
+  deve-se gerar tambem as entidades do AcecInvoiceInfo.xsd no mesmo 
+  pacote JAR.
+  Para isso selecione ambos os arquivos quando executar o wizard
+  de geracao -->
+  
+  <!-- FORCE ALL CLASSES IMPLEMENTS SERIALIZABLE -->
+  <annotation>
+    <appinfo>
+      <jaxb:globalBindings generateIsSetMethod="true">
+        <xjc:serializable uid="1"/>
+      </jaxb:globalBindings>
+    </appinfo>
+  </annotation>
+  
+  <element name="order" type="aceco:order" />
+  <element name="deliveries" type="aceco:deliveries" />
+  <complexType name="order">
+    <annotation>
+      <documentation>Pedido</documentation>    
+    </annotation>
+
+    <sequence>
+      <element name="orderId" type="string">
+        <annotation>
+          <documentation>Id do pedido</documentation>
+        </annotation>
+      </element>
+      
+      <element name="customerId" type="string">
+        <annotation>
+          <documentation>Id do cliente</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="partnerId" type="string">
+        <annotation>
+          <documentation>Id do parceiro</documentation>
+        </annotation>
+      </element>    
+      
+      <element minOccurs="1" name="totalAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total do pedido, já com descontos, frete, etc</documentation>
+        </annotation>
+      </element>    
+      
+      <element name="totalDiscountAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos descontos aplicados ao Pedido</documentation>
+        </annotation>
+      </element>
+        
+      <element name="totalLoyaltyCreditEarningAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos créditos de loyalty do pedido</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="partnerOrderId" type="string">
+        <annotation>
+          <documentation>Id do pedido no parceiro</documentation>
+        </annotation>
+      </element>
+      
+      <element name="purchaseDate" type="dateTime">
+        <annotation>
+          <documentation>Data e hora da geração do pedido</documentation>
+        </annotation>
+      </element>    
+        
+      <element name="visitorIp" type="string">
+        <annotation>
+          <documentation>IP do cliente</documentation>
+        </annotation>
+      </element>   
+         
+      <element minOccurs="0" name="visitorId" type="string">
+        <annotation>
+          <documentation>Id para rastreamento de cliente anônimo (não autenticado)</documentation>
+        </annotation>
+      </element>     
+      
+      <element minOccurs="0" name="salesOperatorId" type="string">
+        <annotation>
+          <documentation>Id do operador de venda</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="salesOperatorName" type="string">
+      	<annotation>
+      		<documentation>Nome do operador de venda</documentation>
+      	</annotation>
+      </element>
+      
+      <element minOccurs="0" name="sessionCreationDate" type="dateTime">
+        <annotation>
+          <documentation>Data/Hora da criação da sessão</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="applicationVersion" type="string">
+        <annotation>
+          <documentation>Versão da aplicação que gerou o pedido</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="origin" type="string">
+        <annotation>
+          <documentation>Origem do pedido, por exemplo SITE-CUL, APP-TAQTILE, ou DEFAULT</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="listId" type="string">
+        <annotation>
+          <documentation>Identificador da lista que originou o pedido (lista de casamento, desejos, etc)</documentation>
+        </annotation>
+      </element>
+      
+      <element name="saleChannel" type="string">
+        <annotation>
+          <documentation>Canal de venda</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="purchaseOrder" type="string">
+        <annotation>
+          <documentation>Identificador do pedido de compra de uso do cliente (Exclusivo para Loja Mondelez)</documentation>
+        </annotation>
+      </element>
+      
+      <element name="shopId" type="string">
+        <annotation>
+          <documentation>Identificador da loja fisica</documentation>
+        </annotation>
+      </element>
+      
+      <element name="leader" type="string">
+        <annotation>
+          <documentation>Lider da loja fisica</documentation>
+        </annotation>
+      </element>
+      
+      <element name="orderType" >
+        <annotation>
+          <documentation>Tipo do pedido (normal, presenteado, outros)</documentation>
+        </annotation>
+        <simpleType>
+              <restriction base="string">
+                <enumeration value="NORMAL" />
+                <enumeration value="PRESENT" />
+                <enumeration value="OTHER" />
+              </restriction>
+            </simpleType>
+      </element>
+      
+      <element minOccurs="0" name="brandId" type="string">
+        <annotation>
+          <documentation>Id da marca</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="storeId" type="string">
+        <annotation>
+          <documentation>Id da loja</documentation>
+        </annotation>
+      </element>     
+      <element minOccurs="0" name="orderMasterId" type="string">
+ 		  <annotation>
+          	<documentation>Id do pedido mestre</documentation>
+		  </annotation>
+	  </element>        
+      <element name="deliveries" type="aceco:deliveries">
+        <annotation>
+          <documentation>Lista de entregas</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="orderPropertyList">
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="orderProperty" type="aceco:orderProperty" />
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="customer" type="aceco:customer">
+        <annotation>
+          <documentation>Endereço de cobrança, endereço principal do cliente</documentation>
+        </annotation>
+      </element>     
+      
+      <element name="billingAddress" type="aceco:address">
+        <annotation>
+          <documentation>Endereço de cobrança, endereço principal do cliente</documentation>
+        </annotation>
+      </element>     
+      
+      <element name="paymentList"> 
+        
+        <annotation>
+          <documentation>Informações de meios de pagamento utilizados nesse pedido</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="payment" type="aceco:payment">
+              <annotation>
+                <documentation>Pagamento específico</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element minOccurs="0" name="freightChargedAmount" type="decimal">
+        <annotation>
+          <documentation>Valor final do frete</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="freightActualAmount" type="decimal">
+        <annotation>
+          <documentation>Valor nominal do frete (sem descontos e abatimentos, com margem comercial)</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="freightCommercialAmount" type="decimal">
+        <annotation>
+          <documentation>Valor somente da margem comercial</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="countDistinctSku" type="integer">
+        <annotation>
+          <documentation>Número de sku distintos no fechamento de pedido</documentation>
+        </annotation>
+      </element>
+   	  <element minOccurs="0" name="orderOwnerTp" type="integer">
+		<annotation>
+			<documentation>Owner of the Order - 1 (Default - Order from Ckout) - 2 (External - Order integrated by WS)</documentation>
+		</annotation>
+      </element>
+      <element name="shopInfo" type="aceco:shopInfo" minOccurs="0">
+        <annotation>
+          <documentation>Shop info</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="orderLine">
+
+     <annotation>
+      <documentation>Linha do pedido</documentation>    
+    </annotation>
+    
+    <sequence>
+    
+      <element name="orderLineId" type="string">
+        <annotation>
+          <documentation>Id da linha do pedido</documentation>
+        </annotation>
+      </element>
+      
+      <element name="sku" type="string">
+        <annotation>
+          <documentation>SKU do produto</documentation>
+        </annotation>
+      </element>
+      
+      <element name="skuIdOrigin" type="string">
+        <annotation>
+          <documentation>SKU Origem do produto</documentation>
+        </annotation>
+      </element>
+
+      <element name="skuType" type="string">
+        <annotation>
+          <documentation>Tipo do produto</documentation>
+        </annotation>
+      </element>
+      
+      <element name="quantity" type="int">
+        <annotation>
+          <documentation>Quantidade de itens nessa linha</documentation>
+        </annotation>
+      </element>
+      
+      <element name="measureUnit" type="string">
+        <annotation>
+          <documentation>Unidade de medida do produto (PIECE, KG, L)</documentation>
+        </annotation>
+      </element>
+      
+      <element name="catalogListPrice" type="decimal">
+        <annotation>
+          <documentation>Valor unitário do produto no catálogo</documentation>
+        </annotation>
+      </element>
+      
+      <element name="listPrice" type="decimal">
+        <annotation>
+          <documentation>Valor unitário de catálogo do produto</documentation>
+        </annotation>
+      </element>
+      
+      <element name="salePrice" type="decimal">
+        <annotation>
+          <documentation>Valor unitário de venda do produto</documentation>
+        </annotation>
+      </element>
+      <element name="replenishmentInfo" type="aceco:replenishmentInfo" minOccurs="0">
+      	<annotation>
+      		<documentation>Lista de informações do stock</documentation>
+      	</annotation>
+      </element>
+      
+      <element name="unconditionalDiscountAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos descontos incondicionais aplicados à linha</documentation>
+        </annotation>
+      </element>
+      
+      <element name="conditionalDiscountAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos descontos condicionais aplicados à linha</documentation>
+        </annotation>
+      </element>
+      
+      <element name="roundingDiscountAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos arredondamentos de descontos aplicados à linha</documentation>
+        </annotation>
+      </element>
+      
+      <element name="loyaltyCreditEarningAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total de créditos de loyalty da linha</documentation>
+        </annotation>
+      </element>
+
+      <element name="roundingLoyaltyCreditEarningAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos arredondamentos de créditos de loyalty da linha</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="promotionList">
+        <annotation>
+          <documentation>Lista de promoções aplicadas para essa linha</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="promotion" type="aceco:promotion">
+              <annotation>
+                <documentation>Lista de promoções aplicacadas</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element minOccurs="0" name="loyaltyCreditList">
+          <annotation>
+	          <documentation>Lista de créditos do programa de fidelidade para essa linha</documentation>
+          </annotation>
+		  <complexType>
+          	<sequence>
+            	<element maxOccurs="unbounded" name="loyaltyCredit" type="aceco:loyaltyCredit">
+                	<annotation>
+                    	<documentation>Lista de Créditos do programa de fidelidade aplicacadas</documentation>
+				    </annotation>
+		        </element>
+            </sequence>
+          </complexType>
+      </element>
+      <element name="freight" type="aceco:freight">
+        <annotation>
+          <documentation>Informações de frete</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="leadTime" type="int">
+        <annotation>
+          <documentation>Prazo que o fornecedor leva para entregar a mercadoria ao CD</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="giftCard" type="aceco:giftCard">
+        <annotation>
+          <documentation>Dados do cartão de presente</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="giftWrap" type="aceco:giftWrap">
+        <annotation>
+          <documentation>Dados de embalagem para presente</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="kitSkuId" type="string">
+        <annotation>
+          <documentation>SKU do kit, caso essa linha seja parte de um</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="kitSkuName" type="string">
+        <annotation>
+          <documentation>Nome do kit, caso essa linha seja parte de um</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="kitQuantity" type="int">
+        <annotation>
+          <documentation>Quantidade de kits, caso essa linha seja parte de um</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="reference">
+        <annotation>
+            <documentation>Lista de referência cruzada: sku x garantia, garantia x sku, sku x brinde, brinde x sku</documentation>
+		</annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="skuId" type="string">
+              <annotation>
+                <documentation>Sku de referência</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element minOccurs="0" name="catalogId" type="string">
+        <annotation>
+          <documentation>Id do catálogo que originou a adição do produto na sacola</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="catalogReference" type="string">
+        <annotation>
+          <documentation>Referência a posição do produto no catálogo</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="orderLinePropertyList">
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="orderLineProperty" type="aceco:orderLineProperty" />
+          </sequence>
+        </complexType>
+      </element>
+      
+      <element name="inventoryType" type="string">
+        <annotation>
+          <documentation>Tipo da reserva</documentation>
+        </annotation>
+      </element>
+      
+       <element name="service" type="boolean">
+        <annotation>
+          <documentation>Se é um serviço ou não</documentation>
+        </annotation>
+      </element>
+      
+      <element name="skuName" type="string">
+        <annotation>
+          <documentation>Nome do sku</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="productBrandName" type="string">
+		<annotation>
+            <documentation>Nome da marca do produto</documentation>
+		</annotation>
+	  </element>      
+      <element minOccurs="0" name="itemTotalFinancialExpense" type="decimal">
+        <annotation>
+          <documentation>Valor total das despesas financeira do item (juros). Valor não setado pelo Checkout</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="itemLevelList">
+        <annotation>
+          <documentation>Lista de Categoria principal(main) do Site(vendas) para esse Item</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="itemLevel" type="aceco:level">
+              <annotation>
+                <documentation>Lista de Categoria principal(main) do Site(vendas) para esse Item</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+
+      <element minOccurs="0" name="itemLevelErpList">
+        <annotation>
+          <documentation>Lista de Categoria principal(main) do Site(vendas) para esse Item</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="itemLevel" type="aceco:level">
+              <annotation>
+                <documentation>Lista de Categoria principal(main) do Site(vendas) para esse Item</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="replenishment" type="aceco:replenishmentInfo"/>
+  <complexType name="replenishmentInfo">
+    <sequence minOccurs="1">
+      <element name="quantity" type="string"/>
+      <element name="stockStartDate" type="dateTime"/>
+    </sequence>
+  </complexType>
+  <element name="tracking" type="aceco:tracking"/>
+  <complexType name="tracking">
+     <annotation>
+      <documentation>Tracking</documentation>    
+    </annotation>
+    <sequence>
+      <element minOccurs="0"  name="trackingId" type="string">
+        <annotation>
+          <documentation>Id do tracking</documentation>
+        </annotation>
+      </element>
+      <element name="trackingCode" type="string">
+        <annotation>
+          <documentation>Codigo do tracking</documentation>
+        </annotation>
+      </element>
+      <element name="trackingDate" type="dateTime">
+        <annotation>
+          <documentation>Data e hora do tracking</documentation>
+        </annotation>
+      </element>
+      <element name="trackingStep" type="string">
+        <annotation>
+          <documentation>Passo do tracking</documentation>
+        </annotation>
+      </element>
+      <element name="trackingTitle" type="string">
+        <annotation>
+          <documentation>Título do tracking</documentation>
+        </annotation>
+      </element>
+      <element name="trackingMessage" type="string">
+        <annotation>
+          <documentation>Mensagem do tracking</documentation>
+        </annotation>
+      </element>
+      <element name="trackingStepStatus" type="string">
+        <annotation>
+          <documentation>Status do Passo do tracking</documentation>
+        </annotation>
+      </element>
+	  <element minOccurs="0" name="adjustedDeliveryDt" type="dateTime">
+      	<annotation>
+            <documentation>Data atualizada de entrega</documentation>
+		</annotation>
+	  </element>
+      <element minOccurs="0" name="carrierURL" type="string">
+        <annotation>
+          <documentation>URL para consulta do pedido na transportadora</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="invoiceURL" type="string">
+        <annotation>
+          <documentation>URL para recuperação da nota fiscal</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" ref="invoice:invoiceInfo">
+		<annotation>
+            <documentation>Informações referentes a nota fiscal.</documentation>
+		</annotation>
+	  </element>
+      <element minOccurs="0" name="trackingPropertyList">
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="trackingProperty" type="aceco:trackingProperty" />
+          </sequence>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="skuDeliveryTracking" type="aceco:skuDeliveryTracking"/>
+  <complexType name="skuDeliveryTracking">
+     <annotation>
+      <documentation>Sku Tracking for a given order</documentation>    
+    </annotation>
+    <sequence>
+      <element minOccurs="1"  name="skuId" type="string">
+        <annotation>
+          <documentation>SKU ID</documentation>
+        </annotation>
+      </element>
+      <element name="skuName" type="string">
+        <annotation>
+          <documentation>Nome do SKU</documentation>
+        </annotation>
+      </element>
+      <element name="preparedQt" type="long">
+        <annotation>
+          <documentation>Quantidade preparada e pronta para despacho/retirada</documentation>
+        </annotation>
+      </element>
+      <element name="unitPrice" type="decimal" minOccurs="0">
+        <annotation>
+          <documentation>Valor unitário</documentation>
+        </annotation>
+      </element>
+      <element name="totalPrice" type="decimal" minOccurs="0">
+        <annotation>
+          <documentation>Valor total</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="giftWrap">
+     
+    <annotation>
+      <documentation>Embalagem de Presente</documentation>    
+    </annotation>    
+    
+    <sequence>
+      <element name="from" type="string">
+        <annotation>
+          <documentation>Nome &quot;De:&quot; na embalagem de presente</documentation>
+        </annotation>
+      </element>
+      <element name="to" type="string">
+        <annotation>
+          <documentation>Nome &quot;Para:&quot; na embalagem de presente</documentation>
+        </annotation>
+      </element>
+      <element name="giftWrapType" type="string">
+        <annotation>
+          <documentation>tipo de embalagem</documentation>
+        </annotation>
+      </element>
+      <element name="giftWrapPrice" type="decimal">
+        <annotation>
+          <documentation>Valor de venda da embalagem. (Para a integração valor da despesa do item)</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="giftCard">
+    
+    <annotation>
+      <documentation>Cartão de presente</documentation>    
+    </annotation>
+    
+    <sequence>
+      <element name="from" type="string">
+        <annotation>
+          <documentation>Nome &quot;De:&quot; no cartão</documentation>
+        </annotation>
+      </element>
+      <element name="to" type="string">
+        <annotation>
+          <documentation>Nome &quot;Para:&quot; no cartão</documentation>
+        </annotation>
+      </element>
+      <element name="message" type="string">
+        <annotation>
+          <documentation>Mensagem no cartão</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="abstractPayment" type="aceco:abstractPayment">
+    <annotation>
+      <documentation>Informações de pagamento geral</documentation>
+    </annotation>
+  </element>
+  <complexType name="abstractPayment">
+    <annotation>
+      <documentation>Dados de pagamento genéricos</documentation>    
+    </annotation>
+    
+    <sequence>
+      <element name="paymentId" type="string">
+        <annotation>
+          <documentation>Id do pagamento sequencial.</documentation>
+        </annotation>
+      </element>
+
+      <element name="transactionId" type="string">
+        <annotation>
+          <documentation>Transaction Id</documentation>
+        </annotation>
+      </element>
+
+      <element name="paymentType" type="string">
+        <annotation>
+          <documentation>Tipos de pagamento (CREDIT_CARD, BILL, VOUCHER, FINANCE, etc )</documentation>
+        </annotation>
+      </element>
+
+    <element name="paymentKey" type="string">
+      <annotation>
+        <documentation>ID de Pagamentos, Ex VISA, DEBT</documentation>
+      </annotation>
+    </element>
+
+    <element name="documentNumber" type="string">
+        <annotation>
+          <documentation>Número de referência(código voucher, número financiamento)</documentation>
+        </annotation>
+    </element>
+      
+      <element name="value" type="decimal">
+        <annotation>
+          <documentation>Valor do pagamento</documentation>
+        </annotation>
+      </element>
+      
+      <element name="interestRate" type="decimal">
+        <annotation>
+          <documentation>Taxa de juros</documentation>
+        </annotation>
+      </element>
+      
+      <element name="interestAmount" type="decimal">
+        <annotation>
+          <documentation>Valor absoluto dos juros</documentation>
+        </annotation>
+      </element>
+      
+      <element name="dueDate" type="dateTime">
+        <annotation>
+          <documentation>Data de vencimento</documentation>
+        </annotation>
+      </element>
+
+      <element name="status" type="string">
+        <annotation>
+          <documentation>Estado do pagamento</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="bankCode" type="integer">
+        <annotation>
+          <documentation>Código do banco</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="agencyCode" type="integer">
+        <annotation>
+          <documentation>Código da agência</documentation>
+        </annotation>
+      </element>
+
+      <element minOccurs="0" name="accountNumber" type="integer">
+        <annotation>
+          <documentation>Código da conta corrente</documentation>
+        </annotation>
+      </element>
+      
+      <element minOccurs="0" name="paymentPropertyList">
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="paymentProperty" type="aceco:paymentProperty" />
+          </sequence>
+        </complexType>
+      </element>
+
+      <element minOccurs="0" name="billType" type="string">
+        <annotation>
+          <documentation>Informa para o cliente qual o tipo de limite de crédito utilizado na venda (SELLER/IFC) Caso o tipo de pagamento não seja boleto faturado, o campo irá vazio</documentation>
+        </annotation>
+      </element>
+      
+    </sequence>
+  </complexType>
+  <!-- Fim Abstract Payment -->
+  
+  <complexType name="payment">
+    <choice>
+      <element ref="aceco:abstractPayment" />
+      <element ref="aceco:creditCardPayment" />
+      <element ref="aceco:cieloPayment" />
+      <element ref="aceco:sipsPayment" />
+    </choice>
+  </complexType>
+  
+  <!-- Pagamento com cartao de Credito -->
+  <element name="creditCardPayment" type="aceco:creditCardPayment">
+    <annotation>
+      <documentation>Informações de pagamento com cartão de crédito</documentation>
+    </annotation>
+  </element>
+  <complexType name="creditCardPayment">
+    <complexContent mixed="false">
+      <extension base="aceco:abstractPayment">
+        <sequence>
+          <element name="cardHoldersName" type="string">
+            <annotation>
+              <documentation>Nome exatamente como escrito no cartão</documentation>
+            </annotation>
+          </element>
+          <element name="brand" type="string">
+            <annotation>
+              <documentation>Bandeira</documentation>
+            </annotation>
+          </element>
+          <element name="numberOfInstallments" type="integer">
+            <annotation>
+              <documentation>Número de parcelas</documentation>
+            </annotation>
+          </element>
+          <element name="encriptedCreditCardNumber" type="string">
+            <annotation>
+              <documentation>Número criptografado do cartão de crédito</documentation>
+            </annotation>
+          </element>
+          <element name="encriptedExpirationDate" type="string">
+            <annotation>
+              <documentation>Número criptografado da data de vencimento do cartão de crédito. Formato do valor descriptografado mm/aaaa. Exemplo: 10/2009</documentation>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="encriptedCardSecurityCode" type="string">
+            <annotation>
+              <documentation>Número criptografado do código de segurança do cartão</documentation>
+            </annotation>
+          </element>
+          <element name="maskedCreditCardNumber" type="string">
+            <annotation>
+              <documentation>Número com mascara do cartão de crédito 6Dig - 999999*******</documentation>
+            </annotation>
+          </element>
+         <element minOccurs="1" name="cardVerificationCode">
+            <annotation>
+              <documentation>Situação do código de segurança</documentation>
+            </annotation>
+            <simpleType>
+              <restriction base="integer">
+                <enumeration value="1"><annotation><documentation>Capturado</documentation></annotation></enumeration>
+                <enumeration value="2"><annotation><documentation>Ilegível</documentation></annotation></enumeration>
+                <enumeration value="3"><annotation><documentation>Ausente</documentation></annotation></enumeration>
+              </restriction>
+            </simpleType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <!-- FIM Pagamento com cartao de Credito -->
+
+  <!-- Pagamento Cielo (verified By Visa) -->
+  <element name="cieloPayment" type="aceco:cieloPayment">
+    <annotation>
+      <documentation>Informações de pagamento pela Cielo (cartão de débito)</documentation>
+    </annotation>
+  </element>
+  <complexType name="cieloPayment">
+    <complexContent mixed="false">
+      <extension base="aceco:abstractPayment">
+        <sequence>
+          <element name="approvalCode" type="integer">
+            <annotation>
+              <documentation>Código de aprovação da Cielo</documentation>
+            </annotation>
+          </element>
+          <element name="approvalDateTime" type="dateTime">
+            <annotation>
+              <documentation>Data/hora da aprovação</documentation>
+            </annotation>
+          </element>
+          <element name="eci" type="integer">
+            <annotation>
+              <documentation>Eletronic Commerce Indicator: indicador de nível de segurança da transação</documentation>
+            </annotation>
+          </element>
+          <element name="lr" type="integer">
+            <annotation>
+              <documentation>Código do motivo da aprovação na Cielo</documentation>
+            </annotation>
+          </element>
+          <element name="arp" type="string">
+            <annotation>
+              <documentation>Código de aprovação na Cielo</documentation>
+            </annotation>
+          </element>
+           <element name="pan" type="string">
+            <annotation>
+              <documentation></documentation>
+            </annotation>
+          </element>
+         <element name="nsu" type="string">
+            <annotation>
+              <documentation>Número sequencial de aprovação</documentation>
+            </annotation>
+          </element>
+          <element name="cardHoldersName" type="string">
+            <annotation>
+              <documentation>Nome exatamente como escrito no cartão</documentation>
+            </annotation>
+          </element>
+          <element name="brand" type="string">
+            <annotation>
+              <documentation>Bandeira</documentation>
+            </annotation>
+          </element>
+          <element name="encriptedCardNumber" type="string">
+            <annotation>
+              <documentation>Número criptografado do cartão de débito</documentation>
+            </annotation>
+          </element>
+          <element name="encriptedExpirationDate" type="string">
+            <annotation>
+              <documentation>Número criptografado da data de vencimento do cartão de débito. Formato do valor descriptografado mm/aaaa. Exemplo: 10/2009</documentation>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="encriptedCardSecurityCode" type="string">
+            <annotation>
+              <documentation>Número criptografado do código de segurança do cartão</documentation>
+            </annotation>
+          </element>
+          <element name="maskedCardNumber" type="string">
+            <annotation>
+              <documentation>Número com mascara do cartão de débito 6Dig - 999999*******</documentation>
+            </annotation>
+          </element>
+         <element minOccurs="1" name="cardVerificationCode">
+            <annotation>
+              <documentation>Situação do código de segurança</documentation>
+            </annotation>
+            <simpleType>
+              <restriction base="integer">
+                <enumeration value="1"><annotation><documentation>Capturado</documentation></annotation></enumeration>
+                <enumeration value="2"><annotation><documentation>Ilegível</documentation></annotation></enumeration>
+                <enumeration value="3"><annotation><documentation>Ausente</documentation></annotation></enumeration>
+              </restriction>
+            </simpleType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <!-- FIM Pagamento Cielo (verified By Visa) -->
+  
+  <!-- SIPS Payment (ATOS) -->
+  <element name="sipsPayment" type="aceco:sipsPayment">
+    <annotation>
+      <documentation>ATOS SIPS Payment</documentation>
+    </annotation>
+  </element>
+  <complexType name="sipsPayment">
+    <complexContent mixed="false">
+      <extension base="aceco:abstractPayment">
+        <sequence>
+          <element name="authorizationId" type="string">
+            <annotation>
+              <documentation>Payment authorization code</documentation>
+            </annotation>
+          </element>
+          <element name="bankResponseCode" type="integer">
+            <annotation>
+              <documentation>Bank authorization response code</documentation>
+            </annotation>
+          </element>
+          <element name="maskedCreditCardNumber" type="string">
+            <annotation>
+              <documentation>Masked Credit Card Number - XXXX**********YY</documentation>
+            </annotation>
+          </element>
+          <element name="cvvFlag" type="integer">
+            <annotation>
+              <documentation>Field returned in the response in the case of a payment with a card having a check number. Refer to APPENDIX B.</documentation>
+            </annotation>
+          </element>
+          <element name="cvvResponseCode" type="string">
+            <annotation>
+              <documentation>Field returned in the response in the case of a payment with a card having a check number. Refer to APPENDIX B.</documentation>
+            </annotation>
+          </element>
+          <element name="paymentCertificate" type="string">
+            <annotation>
+              <documentation>Field returned in the response in case an authorisation request is accepted. The value in this field is calculated from the elements of the transaction and certifies that the authorisation request has been processed by SIPS.</documentation>
+            </annotation>
+          </element>
+          <element name="paymentDateTime" type="dateTime">
+            <annotation>
+              <documentation>Data/hora do pagamento</documentation>
+            </annotation>
+          </element>
+          <element name="billingType" type="string">
+            <annotation>
+              <documentation>Tipo do pagamento - CB, VISA, MASTERCARD, PASSCARD, PASSMASTERCARD, AMEX</documentation>
+            </annotation>
+          </element>
+          <element name="responseCode" type="string">
+            <annotation>
+              <documentation>Field returned in the response and containing the code of the SIPS Server’s response. Refer to APPENDIX G.</documentation>
+            </annotation>
+          </element>
+          <element name="transactionCondition" type="string">
+            <annotation>
+              <documentation>Contains the payment authentication result. 3D_SUCCESS, 3D_FAILURE, 3D_ERROR, 3D_NOTENROLLED, 3D_ATTEMPT, SSL. Refer to APPENDIX J</documentation>
+            </annotation>
+          </element>
+          <element name="currencyCode" type="string">
+            <annotation>
+              <documentation>Codigo da moeda de pagamento baseado no ISO-4217 - Alpha 3. Ex: EUR, USD, BRL</documentation>
+            </annotation>
+          </element>
+          <element name="transmitionDateTime" type="dateTime">
+            <annotation>
+              <documentation>Data/hora da transmissao</documentation>
+            </annotation>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+  <!-- FIM SIPS Payment (ATOS) -->
+  
+<!-- FRETE-->  
+  <complexType name="freight">
+    <sequence>
+      <element minOccurs="0" name="chargedAmount" type="decimal">
+        <annotation>
+          <documentation>Valor final do frete</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="actualAmount" type="decimal">
+        <annotation>
+          <documentation>Valor nominal do frete (sem descontos e abatimentos, com margem comercial)</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="commercialAmount" type="decimal">
+        <annotation>
+          <documentation>Valor somente da MargemComercial</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="freightTime" type="integer">
+        <annotation>
+          <documentation>Tempo de frete em dias</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="pickupLeadTime" type="integer">
+        <annotation>
+          <documentation>Tempo de CD em dias</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="logisticContract" type="string">
+        <annotation>
+          <documentation>Contrato logístico</documentation>
+        </annotation>
+      </element>
+      <element name="expectedDeliveryDate" type="date">
+        <annotation>
+          <documentation>Data da entrega prometida</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="adjustedDeliveryDate" type="date">
+        <annotation>
+          <documentation>Data da entrega ajustada (ajustada na saída do caminhão)</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+<!-- FIM FRETE--> 
+
+
+  <complexType name="deliveries">
+    <sequence>
+      <element minOccurs="0" maxOccurs="unbounded" name="delivery" type="aceco:delivery">
+        <annotation>
+          <documentation>Lista de entregas</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="delivery">
+    <sequence>
+      <element name="deliveryId" type="string">
+        <annotation>
+          <documentation>Identificador único de entrega, composto a partir do identificador do pedido. Para pedido nro 01-123, nro de entrega é 01-123-1, 01-123-2, etc.</documentation>
+        </annotation>
+      </element>
+      <element name="orderId" type="string">
+        <annotation>
+          <documentation>ID do pedido dessa entrega. Redundante para permitir trafegar a entrega de maneira independente</documentation>
+        </annotation>
+      </element>
+      <element name="deliveryType" type="string">
+        <annotation>
+          <documentation>Tipo da entrega (normal, expressa, econômica, garantida, agendada, etc.)</documentation>
+        </annotation>
+      </element>
+      <element name="relatedDeliveryId" type="string">
+        <annotation>
+          <documentation>ID da entrega relacionada (por exemplo o ID da entrega cancelada com essa nova entrega)</documentation>
+        </annotation>
+      </element>
+      <element name="status" type="string">
+        <annotation>
+          <documentation>Estado da entrega</documentation>
+        </annotation>
+      </element>
+      <element name="totalAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total da entrega, já com descontos, frete, etc.</documentation>
+        </annotation>
+      </element>
+      <element name="totalDiscountAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos descontos aplicados à entrega</documentation>
+        </annotation>
+      </element>
+      <element name="discountRoundingAmount" type="decimal">
+        <annotation>
+          <documentation>Valor dos arredondamentos de descontos aplicados à entrega - Não é o somatório de todos os arredondamentos de linha, mas sim os arredondamentos entre várias entregas de um pedido. Pedido com uma única entrega sempre tem esse valor como ZERO</documentation>
+        </annotation>
+      </element>
+      <element name="totalLoyaltyCreditEarningAmount" type="decimal">
+        <annotation>
+          <documentation>Valor total dos creditos de loyalty da entrega</documentation>
+        </annotation>
+      </element>
+      <element name="loyaltyCreditEarningRoundingAmount" type="decimal">
+        <annotation>
+          <documentation>Valor dos arredondamentos de créditos de loyalty da entrega - Não é o somatório de todos os arredondamentos de linha, mas sim os arredondamentos entre várias entregas de um pedido. Pedido com uma única entrega sempre tem esse valor como ZERO</documentation>
+        </annotation>
+      </element>
+      <element name="billingAddressId" type="string">
+        <annotation>
+          <documentation>ID do endereço de cobrança do cliente para esta entrega</documentation>
+        </annotation>
+      </element>
+      <element name="deliveryAddressId" type="string">
+        <annotation>
+          <documentation>ID do endereço de entrega do cliente para esta entrega</documentation>
+        </annotation>
+      </element>
+      <element name="orderLineList">
+        <annotation>
+          <documentation>Lista de itens da entrega</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="orderLine" type="aceco:orderLine">
+              <annotation>
+                <documentation>Linha da entrega</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="trackingList">
+        <annotation>
+          <documentation>Lista de tracking</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="tracking" type="aceco:tracking">
+              <annotation>
+                <documentation>Tracking</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>      
+      <element name="skuDeliveryTrackingList">
+        <annotation>
+          <documentation>Lista de trackings dos sku dessa entrega</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="skuDeliveryTracking" type="aceco:skuDeliveryTracking">
+              <annotation>
+                <documentation>Tracking de sku desta entrega</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="freightAmount" type="aceco:freight">
+        <annotation>
+          <documentation>Informações de valores do frete para a entrega</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="1" name="wareHouseId" type="integer">
+        <annotation>
+          <documentation>Código da filial</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="1" name="wareHouseCNPJ" type="long">
+        <annotation>
+          <documentation>CNPJ da filial</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="invoiceNumber" type="string">
+        <annotation>
+          <documentation>Número da nota fiscal</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="invoiceSeries" type="string">
+        <annotation>
+          <documentation>Número de série da nota fiscal</documentation>
+        </annotation>
+      </element>
+      <element name="carrierCode" type="string">
+        <annotation>
+          <documentation>Este atributo deve conter o CNPJ da transportadora</documentation>
+        </annotation>
+      </element>
+      <element name="deliveryAddress" type="aceco:address">
+        <annotation>
+          <documentation>Endereço de Entrega</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="scheduledPeriod" type="string">
+        <annotation>
+          <documentation>Período da entrega agendada</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="scheduledDate" type="dateTime">
+        <annotation>
+          <documentation>Data da entrega agendada</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="deliveryPropertyList">
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="deliveryProperty" type="aceco:deliveryProperty" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="slotInfo" type="aceco:slotInfo" minOccurs="0">
+        <annotation>
+          <documentation>Slot info</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="customer">
+    <sequence>
+      <element name="customerId" type="string"><annotation><documentation>Identificação do cliente</documentation></annotation></element>
+      <element name="documentNumber" type="string"><annotation><documentation>Número do CPF/CNPJ</documentation></annotation></element>
+      <element name="customerClassification" type="string">
+        <annotation>
+          <documentation>Classificação do cliente (normal, VIP, crítico, etc)</documentation>
+        </annotation>
+      </element>
+      <element name="customerType">
+        <annotation>
+          <documentation>Tipo do cliente (0-PF, 1-PJ)</documentation>
+        </annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="0" />
+            <enumeration value="1" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="name" type="string" ><annotation><documentation>Nome do cliente</documentation></annotation></element>
+      <element name="lastName" type="string" ><annotation><documentation>Sobrenome do cliente</documentation></annotation></element>
+      <element name="email" type="string" ><annotation><documentation>Email do cliente</documentation></annotation></element>
+      <element name="phoneMobile" type="string" ><annotation><documentation>Telefone celular</documentation></annotation></element>
+      <element name="phoneHome" type="string" ><annotation><documentation>Telefone da casa</documentation></annotation></element>
+      <element name="phoneOffice" type="string" ><annotation><documentation>Telefone do trabalho</documentation></annotation></element>
+      <element name="gender"><annotation><documentation>Sexo (M - Masculino, F - Feminino)</documentation></annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="M" />
+            <enumeration value="F" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element minOccurs="0" name="birthDt" type="dateTime" ><annotation><documentation>Data de nascimento</documentation></annotation></element>
+      <element minOccurs="0" name="state_subscription" type="string" ><annotation><documentation>Inscrição estadual (PJ)</documentation></annotation></element>
+      <element minOccurs="0" name="representativeNm" type="string" ><annotation><documentation>Nome do representante (PJ)</documentation></annotation></element>
+      <element name="createDt" type="dateTime" ><annotation><documentation>Data de criação do cliente</documentation></annotation></element>
+      <element name="updateDt" type="dateTime" ><annotation><documentation>Data da última atualização do cliente</documentation></annotation></element>
+      <element name="title" type="string"><annotation><documentation>Titularidade do cliente (Sr, Sra, Mr, Mme, Mle, etc)</documentation></annotation></element>
+      <element name="optIn" type="boolean" minOccurs="0"><annotation><documentation>Flag que indica se o cliente quer receber ofertas por email</documentation></annotation></element>
+      <element name="partnerOptIn" type="boolean" minOccurs="0"><annotation><documentation>Flag que indica se o cliente quer receber ofertas de parceiros por email</documentation></annotation></element>
+      <element name="smsOptIn" type="boolean" minOccurs="0"><annotation><documentation>Flag que indica se o cliente quer receber ofertas por sms</documentation></annotation></element>
+      <element name="smsTrackingOptIn" type="boolean" minOccurs="0"><annotation><documentation>Flag que indica se o cliente quer receber status do pedido (tracking) por sms</documentation></annotation></element>
+      <element name="customerLoyaltyList">
+        <annotation>
+          <documentation>Lista de informações de fidelidade (loyalty)</documentation>
+        </annotation>
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="customerLoyalty" type="aceco:customerLoyalty">
+              <annotation>
+                <documentation>Informações de fidelidade (loyalty)</documentation>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="documentRegisterNumber" type="string" maxOccurs="1" minOccurs="0"></element>
+      <element name="documentRegisterEmissionDate" type="dateTime" maxOccurs="1" minOccurs="0"></element>
+      <element name="documentRegisterEmissor" type="string" maxOccurs="1" minOccurs="0"></element>
+      <element name="occupation" type="string" maxOccurs="1" minOccurs="0"></element>
+      <element name="salaryRange" type="string" maxOccurs="1" minOccurs="0"></element>
+      <element name="maritalStatus" type="string" maxOccurs="1" minOccurs="0"></element>
+      <element name="nationality" type="string" maxOccurs="1" minOccurs="0"></element>
+      <element name="motherName" type="string" maxOccurs="1" minOccurs="0"></element>
+      <element name="guest" type="string" maxOccurs="1" minOccurs="0"></element>
+    </sequence>
+  </complexType>
+
+  <complexType name="address">
+    <sequence>
+      <element name="addressId" type="string"><annotation><documentation>Identificação do endereço do cliente</documentation></annotation></element>
+      <element name="addressType"><annotation><documentation>Tipo do endereço (0-Pessoal [PERSONAL](Cobrança), 1-Presente [GIFT](Entrega))</documentation></annotation>
+        <simpleType>
+          <restriction base="string">
+            <enumeration value="0" />
+            <enumeration value="1" />
+          </restriction>
+        </simpleType>
+      </element>
+      <element name="recipientNm" type="string" ><annotation><documentation>Nome do contato no endereço</documentation></annotation></element>
+      <element name="address" type="string" ><annotation><documentation>Endero, nome da rua avenida...</documentation></annotation></element>
+      <element name="addressNr" type="string" ><annotation><documentation>Número do endereço</documentation></annotation></element>
+      <element minOccurs="0" name="additionalInfo" type="string" ><annotation><documentation>Informações adicionais</documentation></annotation></element>
+      <element name="quarter" type="string" ><annotation><documentation>Bairro</documentation></annotation></element>
+      <element name="city" type="string" ><annotation><documentation>Cidade</documentation></annotation></element>
+      <element name="state" type="string" ><annotation><documentation>Estado</documentation></annotation></element>
+      <element name="countryId" type="string" ><annotation><documentation>Identificação do País. Baseado na ISO-3166, padrão alpha 2</documentation></annotation></element>
+      <element name="postalCd" type="string" ><annotation><documentation>CEP</documentation></annotation></element>
+      <element minOccurs="0" name="postalCdIntl" type="string" ><annotation><documentation>Código Postal Internacional</documentation></annotation></element>
+      <element minOccurs="0" name="reference" type="string" ><annotation><documentation>Referência de entrega</documentation></annotation></element>
+      <element minOccurs="0" name="friendlyNm" type="string" ><annotation><documentation>Nome amigável do endereço</documentation></annotation></element>
+      <element minOccurs="0" name="createDt" type="dateTime" ><annotation><documentation>Data de criação do endereço</documentation></annotation></element>
+      <element minOccurs="0" name="addressExtraField1" type="string"><annotation><documentation>Endereço adicional 1</documentation></annotation></element>      
+      <element minOccurs="0" name="addressExtraField2" type="string"><annotation><documentation>Endereço adicional 2</documentation></annotation></element>      
+      <element minOccurs="0" name="addressExtraField3" type="string"><annotation><documentation>Endereço adicional 3</documentation></annotation></element>      
+      <element minOccurs="0" name="buildingNm" type="string"><annotation><documentation>Número do prédio</documentation></annotation></element>
+      <element minOccurs="0" name="floor" type="string"><annotation><documentation>Número do andar</documentation></annotation></element>
+      <element minOccurs="0" name="digicode" type="string"><annotation><documentation>Senha do interfone</documentation></annotation></element>
+      <element minOccurs="0" name="lift" type="boolean"><annotation><documentation>Indica se existe elevador</documentation></annotation></element>
+      <element minOccurs="0" name="intercom" type="boolean"><annotation><documentation>Indica se existe interfone</documentation></annotation></element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="customerLoyalty">
+    <sequence>
+      <element name="providerId" type="string"><annotation><documentation>Mnemonico do sistema de loyalty</documentation></annotation></element>
+      <element name="affiliationId" type="string"><annotation><documentation>Identificador do usuário no sistema de loyalty</documentation></annotation></element>
+    </sequence>
+  </complexType>
+
+  <complexType name="promotion">
+    <sequence>
+      <element name="promotionId" type="string"><annotation><documentation>Identificador do promoção</documentation></annotation></element>
+      <element name="promotionName" type="string"><annotation><documentation>Nome da promoção aplicada</documentation></annotation></element>
+      <element name="promotionStartDate" minOccurs="0" type="dateTime"><annotation><documentation>Data de inicio de validade da promo</documentation></annotation></element>
+      <element name="promotionEndDate" type="dateTime" minOccurs="0"><annotation><documentation>Data de fim de validade da promo</documentation></annotation></element>
+      <element name="campaignId" type="string" minOccurs="0"><annotation><documentation>Identificador da campanha da promoção</documentation></annotation></element>
+      <element name="label" type="string" minOccurs="0"><annotation><documentation>Título da promoção aplicada (usada no site para destaque)</documentation></annotation></element>
+      <element name="type" type="string"><annotation><documentation>Tipo do promoção</documentation></annotation></element>
+      <element name="amount" type="decimal"><annotation><documentation>Valor do desconto concedido por esta promoção para cada unidade da linha</documentation></annotation></element>
+      <element name="roundingAmount" type="decimal"><annotation><documentation>Valor do arredondamento desconto concedido por esta promoção para TODA A linha</documentation></annotation></element>
+      <element name="minimumQuantity" type="int" minOccurs="0"><annotation><documentation>Nos casos de promoção compre X pague Y, esse campo contem a quantidade minima para receber o desconto</documentation></annotation></element>
+      <element name="paidBySupplier" type="boolean" minOccurs="0"><annotation><documentation>Flag que indica se essa promoção será paga pelo fornecedor</documentation></annotation></element>
+      <element name="couponPromo" type="boolean" minOccurs="0"><annotation><documentation>Flag que indica se essa promoção será paga pelo fornecedor</documentation></annotation></element>
+      <element name="giftSkuTrigger" type="string" minOccurs="0"><annotation><documentation>Sku que foi o gatilho para uma promoção de brinde</documentation></annotation></element>
+    </sequence>
+  </complexType>
+  <complexType name="loyaltyCredit">
+        <complexContent>
+            <extension base="aceco:promotion">
+                <sequence>
+                    <element name="days" type="int" minOccurs="0">
+                        <annotation>
+                            <documentation>Prazo para utilizacao dos creditos antes de expirarem - se ausente indica que nao temos prazo</documentation>
+                        </annotation>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+  <complexType name="level">
+    <sequence>
+      <element name="levelId" type="string"><annotation><documentation>Identificador da Categoria ou Level</documentation></annotation></element>
+      <element name="levelName" type="string"><annotation><documentation>Nome da Categoria ou Level</documentation></annotation></element>
+    </sequence>
+  </complexType>
+
+  <complexType name="orderProperty">
+    <sequence>
+      <element name="orderPropertyId" type="string" />
+      <element name="orderPropertyValue" type="string" />
+    </sequence>
+  </complexType>
+
+  <complexType name="orderLineProperty">
+    <sequence>
+      <element name="orderLinePropertyId" type="string" />
+      <element name="orderLinePropertyValue" type="string" />
+    </sequence>
+  </complexType>
+
+  <complexType name="paymentProperty">
+    <sequence>
+      <element name="paymentPropertyId" type="string" />
+      <element name="paymentPropertyValue" type="string" />
+    </sequence>
+  </complexType>
+
+  <complexType name="deliveryProperty">
+    <sequence>
+      <element name="deliveryPropertyId" type="string" />
+      <element name="deliveryPropertyValue" type="string" />
+    </sequence>
+  </complexType>
+
+  <complexType name="trackingProperty">
+    <sequence>
+      <element name="trackingPropertyId" type="string" />
+      <element name="trackingPropertyValue" type="string" />
+    </sequence>
+  </complexType>
+
+  <complexType name="shopInfo">
+    <sequence>
+      <element name="shopId" type="string" />
+	  <element name="shopCode" type="string"/>
+      <element name="legacyShopId" type="string" />
+      <element name="shopName" type="string" />
+      <element name="shopService" type="string" />
+	  <element name="classification" type="string"/>
+      <element name="state" type="string"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="slotInfo">
+    <sequence>
+	<element name="slotId" type="string"/>
+	<element name="pickupStartDate" type="dateTime" />
+	<element name="pickupEndDate" type="dateTime" minOccurs="0" />
+	<element name="actualAmount" type="double" minOccurs="0"/>
+	<element name="chargedAmount" type="double" minOccurs="0"/>
+	<element name="name" type="string" minOccurs="0"/>
+	<element name="sourceName" type="string" minOccurs="0"/>
+    <element name="promotionList" minOccurs="0">
+      <complexType>
+        <sequence>
+          <element maxOccurs="unbounded" name="promotion" type="aceco:promotion">
+            <annotation>
+              <documentation>Lista de promoções aplicacadas</documentation>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+    </element>
+    </sequence>
+  </complexType>
+</schema>

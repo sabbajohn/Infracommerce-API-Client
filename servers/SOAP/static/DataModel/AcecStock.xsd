@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns="http://www.accurate.com/acec/Stock" attributeFormDefault="unqualified" elementFormDefault="qualified" 
+	targetNamespace="http://www.accurate.com/acec/Stock" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc"
+	jaxb:version="1.0" >
+
+  <!-- FORCE ALL CLASSES IMPLEMENTS SERIALIZABLE -->
+  <xs:annotation>
+    <xs:appinfo>
+      <jaxb:globalBindings generateIsSetMethod="true">
+        <xjc:serializable uid="1"/>
+      </jaxb:globalBindings>
+    </xs:appinfo>
+  </xs:annotation>
+
+
+  <xs:complexType name="stock">
+    <xs:sequence>
+      <xs:element minOccurs="1" name="skuId" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Product identification</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="wareHouseId" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>Corporate Branch ID</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+	  <xs:element minOccurs="0" name="warehouseCnpj" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>Corporate Branch CNPJ</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="1" name="stockType" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>
+            Stock Types:
+                0 - Indisponivel
+                1 – Disponivel
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="stockTypeSourceName" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>Stock control, unit or not</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="leadTime" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>Delivery time (days)</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="quantity" type="xs:int">
+        <xs:annotation>
+          <xs:documentation>Quantity in stock</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+	  <xs:element minOccurs="0" name="relativeStockFlag" type="xs:boolean">
+        <xs:annotation>
+          <xs:documentation>Flag indicating if the quantity field is absolute value or relative.</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="startDate" type="xs:dateTime">
+      	<xs:annotation>
+      		<xs:documentation>Start of the period of validity of this stock</xs:documentation>
+      	</xs:annotation>
+      </xs:element>
+      <xs:element minOccurs="0" name="endDate" type="xs:dateTime">
+      	<xs:annotation>
+      		<xs:documentation>End of the period of validity of this stock</xs:documentation>
+      	</xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="stock" type="stock" />
+  <xs:complexType name="stockList">
+    <xs:sequence>
+      <xs:element name="stock" type="stock" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="stockList" type="stockList" />
+  
+</xs:schema>

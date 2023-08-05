@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema xmlns:track="http://www.accurate.com/acec/Tracking"
+        attributeFormDefault="unqualified" elementFormDefault="qualified"
+        targetNamespace="http://www.accurate.com/acec/Tracking"
+        xmlns:invoice="http://www.accurate.com/acec/InvoiceInfo"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+        
+    <import schemaLocation="AcecInvoiceInfo.xsd" namespace="http://www.accurate.com/acec/InvoiceInfo" />
+    <complexType name="SkuDeliveryTracking">
+        <sequence>
+            <element minOccurs="1" name="orderId" type="string">
+                <annotation>
+                    <documentation>Id do pedido.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="deliveryId" type="long">
+                <annotation>
+                    <documentation>Id da entrega.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="skuId" type="string">
+                <annotation>
+                    <documentation>Id do SKU.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="skuName" type="string">
+                <annotation>
+                    <documentation>Descrição do SKU.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="preparedQt" type="long">
+                <annotation>
+                    <documentation>Quantidade preparada e pronta para despacho/retirada.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="unitPrice" type="decimal">
+                <annotation>
+                    <documentation>Valor unitário</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="totalPrice" type="decimal">
+                <annotation>
+                    <documentation>Valor total.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="kitSkuId" type="string">
+                <annotation>
+                    <documentation>Id do KIT SKU.</documentation>
+                </annotation>
+            </element>
+            <element name="occurrenceDt" type="dateTime"/>
+        </sequence>
+    </complexType>
+    
+    <complexType name="Tracking">
+        <sequence>
+            <element minOccurs="1" name="orderId" type="string">
+                <annotation>
+                    <documentation>Id do pedido.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="deliveryId" type="long">
+                <annotation>
+                    <documentation>Id da entrega.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="1" name="controlPointId" type="string">
+                <annotation>
+                    <documentation>Código do ponto de controle.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="1" name="controlPointNm" type="string">
+                <annotation>
+                    <documentation>Descrição do ponto de controle.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="1" name="occurrenceDt" type="dateTime">
+                <annotation>
+                    <documentation>Data da ocorrência.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="carrierId" type="long">
+                <annotation>
+                    <documentation>Código da transportadora.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="carrierNm" type="string">
+                <annotation>
+                    <documentation>Nome da transportadora.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="contractId" type="string">
+                <annotation>
+                    <documentation>Código do contrato.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="receiverNm" type="string">
+                <annotation>
+                    <documentation>Nome do recebedor.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="carrierMessage" type="string">
+                <annotation>
+                    <documentation>Observação da transportadora.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="adjustedDeliveryDt" type="date">
+                <annotation>
+                    <documentation>Data de entrega, corrigida pelo evento.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="CTRCNumber" type="string">
+                <annotation>
+                    <documentation>Número do CTRC.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="carrierURL" type="string">
+                <annotation>
+                    <documentation>URL para consulta do pedido na transportadora.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="invoiceURL" type="string">
+                <annotation>
+                    <documentation>URL para recuperação de nota fiscal.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" ref="invoice:invoiceInfo">
+                <annotation>
+                    <documentation>Informações referentes a nota fiscal.</documentation>
+                </annotation>
+            </element>
+            <element minOccurs="0" name="trackingPropertyList">
+                <complexType>
+                    <sequence>
+                        <element maxOccurs="unbounded" name="trackingProperty"
+                                 type="track:trackingProperty"/>
+                    </sequence>
+                </complexType>
+            </element>
+            <element minOccurs="0" maxOccurs="1" ref="track:skuDeliveryTrackingList">
+                <annotation>
+                    <documentation>Lista de trackings por Sku.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="trackingProperty">
+        <sequence>
+            <element name="trackingPropertyId" type="string" minOccurs="0">
+                <annotation>
+                    <documentation>Id da propriedade do tracking.</documentation>
+                </annotation>
+            </element>
+            <element name="trackingPropertyValue" type="string" minOccurs="0">
+                <annotation>
+                    <documentation>Valor da propriedade do tracking.</documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <element name="tracking" type="track:Tracking"/>
+    
+    <complexType name="trackingList">
+        <sequence>
+            <element minOccurs="0" maxOccurs="unbounded" ref="track:tracking"/>
+        </sequence>
+    </complexType>
+    <element name="trackingList" type="track:trackingList">
+        <annotation>
+            <documentation>Lista de trackings.</documentation>
+        </annotation>
+    </element>
+    
+    <element name="skuDeliveryTracking" type="track:SkuDeliveryTracking"/>
+    <complexType name="SkuDeliveryTrackingList">
+        <sequence>
+            <element minOccurs="0" maxOccurs="unbounded" ref="track:skuDeliveryTracking"/>
+        </sequence>
+    </complexType>
+    <element name="skuDeliveryTrackingList" type="track:SkuDeliveryTrackingList">
+        <annotation>
+            <documentation>Lista de trackings.</documentation>
+        </annotation>
+    </element>
+</schema>

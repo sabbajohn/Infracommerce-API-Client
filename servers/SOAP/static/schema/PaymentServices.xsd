@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.accurate.com/acec/PaymentServices"
+     xmlns:ps="http://www.accurate.com/acec/PaymentServices" xmlns="http://www.w3.org/2001/XMLSchema">
+    <element name="confirmPaymentRequest">
+        <complexType>
+            <sequence>
+                <element minOccurs="1" maxOccurs="1" name="orderId" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="deliveryId" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="paymentId" type="integer"/>
+                <element minOccurs="1" maxOccurs="1" name="amount" type="double"/>
+                <element minOccurs="0" maxOccurs="1" name="status" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="updateRiskAnalysis" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="desc" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="authCode" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="returnCode" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="partnerTransactionId" type="string"/>
+                <element minOccurs="0" maxOccurs="1" name="storeId" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="confirmPaymentResponse">
+        <complexType>
+            <sequence>
+                <element minOccurs="1" maxOccurs="1" name="success" type="boolean"/>
+                <element name="statusMessage" minOccurs="0" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

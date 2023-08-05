@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions name="BOOrderIntegration"
+	targetNamespace="http://www.accurate.com/acec/AcecBOSOAIntegration/BOOrderIntegration"
+	xmlns:client="http://www.accurate.com/acec/AcecBOSOAIntegration/BOOrderIntegration"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xsd:schema>
+			<xsd:import	namespace="http://www.accurate.com/acec/AcecBOSOAIntegration/BOOrderIntegration" schemaLocation="schemas/BOOrderIntegration.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="integrateOrderRequestMessage">
+		<wsdl:part name="payload" element="client:integrateOrderRequest" />
+	</wsdl:message>
+	<wsdl:message name="integrateOrderResponseMessage">
+		<wsdl:part name="payload" element="client:integrateOrderResponse" />
+	</wsdl:message>
+	<wsdl:portType name="BOOrderIntegration">
+		<wsdl:operation name="integrateOrder">
+			<wsdl:input message="client:integrateOrderRequestMessage" />
+			<wsdl:output message="client:integrateOrderResponseMessage" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="BOOrderIntegrationBinding" type="client:BOOrderIntegration">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="integrateOrder">
+			<soap:operation style="document" soapAction="integrateOrder" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="BOOrderIntegration">
+		<wsdl:port name="BOOrderIntegration" binding="client:BOOrderIntegrationBinding">
+			<soap:address location="http://comp300.acc.br:11110/soa-infra/services/default/AbacosOrderServices/BOOrderIntegration" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

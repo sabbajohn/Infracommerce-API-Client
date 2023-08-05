@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema xmlns:invoice="http://www.accurate.com/acec/InvoiceInfo"
+        attributeFormDefault="unqualified" elementFormDefault="qualified"
+        targetNamespace="http://www.accurate.com/acec/InvoiceInfo"
+        xmlns="http://www.w3.org/2001/XMLSchema">
+  <complexType name="InvoiceInfo">
+    <sequence>
+	  <element minOccurs="0" name="issuerDocumentNr" type="long">
+        <annotation>
+          <documentation>Issuer document number. (CNPJ Emissor)</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="invoiceNumber" type="long">
+        <annotation>
+          <documentation>Invoice Number</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="invoiceSerialNumber" type="string">
+        <annotation>
+          <documentation>Invoice Serial Number</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="invoiceEmissionDate" type="dateTime">
+        <annotation>
+          <documentation>Invoice emission date</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="invoiceEletronicKey" type="string">
+        <annotation>
+          <documentation>Invoice eletronic key. Used to print NFE.</documentation>
+        </annotation>
+      </element>
+      <element minOccurs="0" name="objectDataList">
+        <complexType>
+          <sequence>
+            <element maxOccurs="unbounded" name="objectData" type="invoice:ObjectData"/>
+          </sequence>
+        </complexType>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="invoiceInfo" type="invoice:InvoiceInfo"/>
+  <complexType name="ObjectData">
+    <sequence>
+      <element name="objectId" type="string" minOccurs="0">  
+        <annotation>
+          <documentation>Object Id.</documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <element name="objectData" type="invoice:ObjectData"/>
+</schema>
