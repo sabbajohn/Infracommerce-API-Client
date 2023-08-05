@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:aceco="http://www.accurate.com/acec/coupon" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.accurate.com/acec/coupon" xmlns="http://www.w3.org/2001/XMLSchema">
+  <complexType name="coupon">
+    <sequence>
+      <element name="couponId" type="string" minOccurs="0">
+        <annotation>
+          <documentation>Coupon Hash Number</documentation>
+        </annotation>
+      </element>
+      <element name="value" type="decimal">
+        <annotation>
+          <documentation>Coupon amount</documentation>
+        </annotation>
+      </element>
+      <element name="dueDate" type="date" minOccurs="0">
+        <annotation>
+          <documentation>Due Date</documentation>
+        </annotation>
+      </element>
+      <element name="status" type="string" minOccurs="0">
+        <annotation>
+          <documentation>Coupon Status: (A) Active (C) Cancelled or (R) Reactivated</documentation>
+        </annotation>
+      </element>
+      <element name="customerDocumentNr" type="decimal">
+        <annotation>
+          <documentation>Customer Document Number</documentation>
+        </annotation>
+      </element>
+      <element name="voucherType" type="string" minOccurs="0"/>
+      <element name="issuer" type="string" minOccurs="0"/>      
+      <element name="origin" type="string" minOccurs="0">
+        <annotation>
+          <documentation>Este campo identifica para onde o distribuidor está passando o crédito do cliente. Caso Selecione IFC o campo value é desconsiderado, caso mande SELLER, o funcionamento se mantém como é hoje em dia. Caso a tag não seja enviada, mantém-se o que está cadastrado.
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <complexType name="coupons">
+    <sequence>
+      <element ref="aceco:coupon" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+  <element name="coupon" type="aceco:coupon" />
+  <element name="coupons" type="aceco:coupons" />
+</schema>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.accurate.com/acec/AcecBOSOAIntegration/BOOrderIntegration"
+     xmlns="http://www.w3.org/2001/XMLSchema" xmlns:aceco="http://www.accurate.com/acec/order">
+    <import schemaLocation="../DataModel/AcecOrder.xsd"
+         namespace="http://www.accurate.com/acec/order"/>
+    <element name="integrateOrderRequest">
+        <complexType>
+            <sequence>
+                <element ref="aceco:order"/>
+            </sequence>
+        </complexType>
+    </element>
+    <element name="integrateOrderResponse">
+        <complexType>
+            <sequence>
+                <element name="status" type="string"/>
+                <element name="message" type="string"/>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

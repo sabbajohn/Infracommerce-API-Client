@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<wsdl:definitions name="PaymentServices"
+	targetNamespace="http://www.accurate.com/acec/PaymentServices"
+	xmlns:client="http://www.accurate.com/acec/PaymentServices"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:err="http://www.accurate.com/acec/ErrorLog"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:types>
+        <xsd:schema>
+            <xsd:import namespace="http://www.accurate.com/acec/PaymentServices" schemaLocation="schemas/PaymentServices.xsd" />
+            <xsd:import namespace="http://www.accurate.com/acec/ErrorLog" schemaLocation="schemas/ErrorLog.xsd" />
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="ConfirmPaymentRequestMessage">
+        <wsdl:part name="payload" element="client:confirmPaymentRequest"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmPaymentResponseMessage">
+        <wsdl:part name="payload" element="client:confirmPaymentResponse"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmPaymentFaultMessage">
+        <wsdl:part name="payload" element="err:error"/>
+    </wsdl:message>
+    <wsdl:portType name="PaymentServices">
+        <wsdl:operation name="confirmPayment">
+            <wsdl:input message="client:ConfirmPaymentRequestMessage"/>
+            <wsdl:output message="client:ConfirmPaymentResponseMessage"/>
+            <wsdl:fault name="confirmPaymentFault" message="client:ConfirmPaymentFaultMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="PaymentServicesBinding" type="client:PaymentServices">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="confirmPayment">
+            <soap:operation style="document" soapAction="confirmPayment"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="confirmPaymentFault">
+                <soap:fault name="confirmPaymentFault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="PaymentServicesMediator_ep">
+        <wsdl:port name="PaymentServices_pt" binding="client:PaymentServicesBinding">
+            <soap:address location="http://localhost/soa-infra/services/default/PaymentServices/PaymentServices"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

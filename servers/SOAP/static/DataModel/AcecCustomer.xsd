@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema
+  xmlns="http://www.accurate.com/acec/Customer"
+  attributeFormDefault="unqualified"
+  elementFormDefault="qualified"
+  targetNamespace="http://www.accurate.com/acec/Customer"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+  xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+  jaxb:extensionBindingPrefixes="xjc"
+  jaxb:version="1.0"
+  >    
+    
+    <!-- FORCE ALL CLASSES IMPLEMENTS SERIALIZABLE -->
+    <xs:annotation>
+      <xs:appinfo>
+        <jaxb:globalBindings generateIsSetMethod="false">
+          <xjc:serializable uid="1"/>
+        </jaxb:globalBindings>
+      </xs:appinfo>
+    </xs:annotation>
+    
+    <xs:element name="customer" type="customer"/>
+    <xs:complexType name="customer">
+        <xs:sequence>
+            <xs:element name="customerId" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Identificação do cliente</xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="customerType" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Tipo do cliente (0-PF, 1-PJ)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="PF"/>
+
+                        <xs:enumeration value="PJ"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="title" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Tratamento/saudação (Ex: Sr., Sra., Dr., etc)</xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="name" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Nome do cliente</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastName" type="xs:string" minOccurs="0">
+                <xs:annotation>
+
+                    <xs:documentation>Sobrenome do cliente</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="email" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Email do cliente</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="documentNr" minOccurs="0" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Número do documento do cliente</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="mainAddressId" minOccurs="0" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Identificação do endereço principal do cliente</xs:documentation>
+
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="createDate" type="xs:dateTime" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Data de criação do cliente</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="updateDate" minOccurs="0" type="xs:dateTime">
+
+                <xs:annotation>
+                    <xs:documentation>Data da última atualização do cliente</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="gender" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Sexo (M - Masculino, F - Feminino)</xs:documentation>
+                </xs:annotation>
+
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="M"/>
+                        <xs:enumeration value="F"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="birthDate" minOccurs="0" type="xs:date">
+                <xs:annotation>
+
+                    <xs:documentation>Data de nascimento</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="stateSubscription" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Inscrição Estadual (PJ)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="status" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Status do cliente (0 - Inativo, 1 - Ativo)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:enumeration value="0"/>
+                        <xs:enumeration value="1"/>
+
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="representativeNm" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Nome do representante (PJ)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="customerGroupId" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Identificação do grupo</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="optIn" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indica se o cliente quer receber ofertas por email</xs:documentation>
+
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="N"/>
+                        <xs:enumeration value="Y"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="partnerOptIn" minOccurs="0">
+
+                <xs:annotation>
+                    <xs:documentation>Indica se o cliente quer receber ofertas de parceiros por email</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="N"/>
+                        <xs:enumeration value="Y"/>
+                    </xs:restriction>
+
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="smsOptIn" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indica se o cliente quer receber ofertas por sms</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+
+                        <xs:enumeration value="N"/>
+                        <xs:enumeration value="Y"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="smsTrkOptIn" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indica se o cliente quer receber status do pedido (tracking) por sms</xs:documentation>
+
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="N"/>
+                        <xs:enumeration value="Y"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="orderSummaryInfo" type="orderSummaryInfo" minOccurs="0">
+
+                <xs:annotation>
+                    <xs:documentation>Informações sobre pedido resumidas</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="phoneList" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="phone" type="phoneType" minOccurs="0" maxOccurs="unbounded"/>
+
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="addressList" minOccurs="0">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="address" type="addressType" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                </xs:complexType>
+
+            </xs:element>
+			<xs:element name="customerLoyalty" type="customerLoyalty" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>Informações sobre Loyalty</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lastVisitedStore" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Informações sobre a ultima loja visitada</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="newsletterOptout" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Unsubscribe newsletter url</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="partnerNewsletterOptout" type="xs:string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Unsubscribe partner newsletter url</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+	    <xs:element name="extraEmailList" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="email" type="emailType" minOccurs="0"
+                        maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="phoneType">
+        <xs:sequence>
+            <xs:element name="phoneId" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Identificação do telefone</xs:documentation>
+
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="phoneTp" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Tipo do telefone ( 0-Casa [HOME], 1-Trabalho
+                            [OFFICE], 2-Celular [MOBILE] )</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+
+                        <xs:enumeration value="0"/>
+                        <xs:enumeration value="1"/>
+                        <xs:enumeration value="2"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="countryCd" minOccurs="0" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Código de discagem do país</xs:documentation>
+
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="areaCd" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Código de discagem local</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="phoneNr" minOccurs="0" type="xs:long">
+
+                <xs:annotation>
+                    <xs:documentation>Número do telefone</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+      <xs:element name="encryptedPhoneNr" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Telefone encriptografado do cliente</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+            <xs:element name="extension" minOccurs="0" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Ramal</xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="status" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Status do telefone (0 - Inativo, 1 - Ativo)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:enumeration value="0"/>
+
+                        <xs:enumeration value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="createDate" type="xs:dateTime" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Data de criação do telefone</xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="updateDate" minOccurs="0" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Data da última atualização do telefone</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="customerLoyalty">
+		<xs:sequence>
+			<xs:element name="affiliationId" type="xs:string" minOccurs="0"/>
+			<xs:element name="custLoyaltyId" type="xs:long" minOccurs="0"/>
+			<xs:element name="providerId" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+    <xs:complexType name="addressType">
+        <xs:sequence>
+            <xs:element name="addressId" type="xs:long" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Identificação do endereço do cliente</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="addressTp" minOccurs="0">
+
+                <xs:annotation>
+                    <xs:documentation>Tipo do endereço (0-Pessoal [PERSONAL], 1-Presente
+                            [GIFT])</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:enumeration value="0"/>
+                        <xs:enumeration value="1"/>
+                    </xs:restriction>
+
+                </xs:simpleType>
+            </xs:element>
+			<xs:element name="streetType" minOccurs="0" type="xs:string">
+			      <xs:annotation>
+                    <xs:documentation>Tipo de Logradouro (Rua, Avenida, Estrada)</xs:documentation>
+                </xs:annotation>
+			</xs:element>            
+            <xs:element name="status" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Status do endereço do cliente (0 - Inativo, 1 -
+                            Ativo)</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+
+                        <xs:enumeration value="0"/>
+                        <xs:enumeration value="1"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="recipientNm" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Nome do contato no endereço</xs:documentation>
+
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="address" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Endereço</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="addressNr" minOccurs="0" type="xs:string">
+
+                <xs:annotation>
+                    <xs:documentation>Número do endereço</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="additionalInfo" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Informações adicionais</xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="quarter" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Bairro</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="city" minOccurs="0" type="xs:string">
+                <xs:annotation>
+
+                    <xs:documentation>Cidade</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="state" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Estado</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="countryId" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Identificação do País</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="postalCdIntl" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Código Postal Internacional</xs:documentation>
+
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="reference" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Referência de entrega</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="friendlyNm" minOccurs="0" type="xs:string">
+
+                <xs:annotation>
+                    <xs:documentation>Nome amigável do endereço</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="createDate" minOccurs="0" type="xs:dateTime">
+                <xs:annotation>
+                    <xs:documentation>Data de criação do endereço</xs:documentation>
+                </xs:annotation>
+
+            </xs:element>
+            <xs:element name="postalCd" minOccurs="0" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Código Postal (CEP)</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="updateDate" minOccurs="0" type="xs:dateTime">
+                <xs:annotation>
+
+                    <xs:documentation>Data da última atualização do telefone</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="addressExtra1" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Endereço adicional 1</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="addressExtra2" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Endereço adicional 2</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="buildingNm" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Número do prédio</xs:documentation>
+
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="floor" minOccurs="0" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>Número do andar</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="digicode" minOccurs="0" type="xs:string">
+
+                <xs:annotation>
+                    <xs:documentation>Senha do interfone</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="lift" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>Indica se existe elevador</xs:documentation>
+                </xs:annotation>
+
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="N"/>
+                        <xs:enumeration value="Y"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="intercom" minOccurs="0">
+                <xs:annotation>
+
+                    <xs:documentation>Indica se existe interfone</xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:enumeration value="N"/>
+                        <xs:enumeration value="Y"/>
+                    </xs:restriction>
+                </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="emailType">
+    <xs:sequence>
+      <xs:element name="emailId" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Identificação do email</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="emailTp" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Tipo do email ( 0-Casa [HOME], 1-Trabalho [WORK] )</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="email" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Email do cliente</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="encryptedEmail" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Email encriptografado do cliente</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="status" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Status do email (0 - Inativo, 1 - Ativo)</xs:documentation>
+        </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:int">
+            <xs:enumeration value="0"/>
+            <xs:enumeration value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="createDate" type="xs:dateTime" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>Data de criação do email</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="updateDate" minOccurs="0" type="xs:dateTime">
+        <xs:annotation>
+          <xs:documentation>Data da última atualização do email</xs:documentation>
+        </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="orderSummaryInfo">
+        <xs:sequence>
+            <xs:element name="orderCount" minOccurs="0" type="xs:long">
+                <xs:annotation>
+                    <xs:documentation>Indica a quantidade de pedidos fechados</xs:documentation>
+
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="orderTotal" minOccurs="0" type="xs:decimal">
+                <xs:annotation>
+                    <xs:documentation>Indica o valor total dos pedidos fechados</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+
+    </xs:complexType>
+    <xs:element name="customerList" type="customerList"/>
+    <xs:complexType name="customerList">
+        <xs:sequence>
+            <xs:element minOccurs="0" maxOccurs="unbounded" ref="customer"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
