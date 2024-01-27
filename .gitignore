@@ -4,3 +4,4 @@ __pycache__/*
 debug.py
 Mondelez/
 requests.http
+env/*
